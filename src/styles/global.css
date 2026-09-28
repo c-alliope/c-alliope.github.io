@@ -30,6 +30,11 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* native pointer stays invisible — the blood dot + ring are the cursor */
+* {
+  cursor: none !important;
+}
+
 ::selection {
   background: var(--color-blood);
   color: white;

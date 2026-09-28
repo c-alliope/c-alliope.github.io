@@ -5,7 +5,7 @@ import { getCollection } from 'astro:content';
 const posts = (await getCollection('blog')).sort((a, b) => +b.data.date - +a.data.date);
 ---
 
-<Base title="cal.dev — log">
+<Base title="calliope.red — log">
   <section class="mx-auto max-w-4xl px-4 md:px-8 pt-28 pb-16">
     <p class="hud-label">03 / log — markdown blog</p>
     <div class="relative mt-2">

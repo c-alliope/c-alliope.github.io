@@ -88,6 +88,12 @@ const path = Astro.url.pathname;
         setTimeout(() => { window.location.href = href; }, 550);
       }, true);
 
+      // back/forward restores the page from bfcache with the overlay frozen
+      // mid-wipe — always reset it so back never lands on a red screen.
+      addEventListener('pageshow', () => {
+        document.getElementById('absorb')?.classList.remove('active');
+      });
+
       // custom cursor
       const dot = document.getElementById('cdot');
       const ring = document.getElementById('cring');

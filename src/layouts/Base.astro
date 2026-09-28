@@ -28,7 +28,6 @@ const path = Astro.url.pathname;
     <ClientRouter />
   </head>
   <body class="min-h-screen bg-void text-bone antialiased">
-    <div id="absorb" aria-hidden="true"></div>
     <div class="cursor-dot no-print hidden md:block" id="cdot" aria-hidden="true"></div>
     <div class="cursor-ring no-print hidden md:block" id="cring" aria-hidden="true"></div>
     <button id="sound-toggle" aria-pressed="false" class="hud-label no-print fixed bottom-4 right-4 z-[60] border border-bone/25 bg-void/80 px-3 py-2 backdrop-blur-md hover:border-blood hover:text-blood transition-colors">sound — off</button>
@@ -68,9 +67,9 @@ const path = Astro.url.pathname;
     </footer>
 
     <script>
-      // absorb / branch transition: red circle expands from click point, then navigates.
-      // capture + stopPropagation beats ClientRouter to the click, so the router
-      // never SPA-navigates underneath us — exactly one history entry per click.
+      import { navigate } from 'astro:transitions/client';
+      // consume transition: the new page masks in from the click point and eats the old one.
+      // capture + stopPropagation keeps the router out — exactly one history entry.
       document.addEventListener('click', (e) => {
         const t = (e.target as HTMLElement).closest('a[data-absorb]') as HTMLAnchorElement | null;
         if (!t) return;
@@ -78,20 +77,18 @@ const path = Astro.url.pathname;
         if (!href || href.startsWith('http') || href.startsWith('#') || e.metaKey || e.ctrlKey || e.button === 2) return;
         e.preventDefault();
         e.stopPropagation();
-        const overlay = document.getElementById('absorb');
-        if (!overlay) { window.location.href = href; return; }
-        overlay.style.setProperty('--ax', e.clientX + 'px');
-        overlay.style.setProperty('--ay', e.clientY + 'px');
-        overlay.classList.add('active');
+        const r = document.documentElement;
+        r.style.setProperty('--ax', e.clientX + 'px');
+        r.style.setProperty('--ay', e.clientY + 'px');
         // boost thornfield warp if present
         (window as any).__warpBoost?.();
-        setTimeout(() => { window.location.href = href; }, 550);
+        navigate(href);
       }, true);
 
-      // back/forward restores the page from bfcache with the overlay frozen
-      // mid-wipe — always reset it so back never lands on a red screen.
+      // back/forward restores can freeze mid-transition state — make sure no mask sticks.
       addEventListener('pageshow', () => {
-        document.getElementById('absorb')?.classList.remove('active');
+        document.documentElement.style.removeProperty('--ax');
+        document.documentElement.style.removeProperty('--ay');
       });
 
       // custom cursor

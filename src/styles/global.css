@@ -109,26 +109,29 @@ html {
   border-color: var(--color-blood);
 }
 
-/* absorb wipe overlay */
-#absorb {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  pointer-events: none;
-  background: var(--color-blood);
-  clip-path: circle(0% at var(--ax, 50%) var(--ay, 50%));
-  transition: clip-path 0.7s cubic-bezier(0.76, 0, 0.24, 1);
+/* consume transition — the new page masks in from the click point and eats the old one */
+::view-transition-old(root) {
+  animation: consume-old 0.55s cubic-bezier(0.76, 0, 0.24, 1) both;
 }
 
-#absorb.active {
-  clip-path: circle(150% at var(--ax, 50%) var(--ay, 50%));
-}
-
-/* view transitions */
-::view-transition-old(root),
 ::view-transition-new(root) {
-  animation-duration: 0.45s;
-  animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+  animation: consume-new 0.65s cubic-bezier(0.76, 0, 0.24, 1) both;
+}
+
+@keyframes consume-old {
+  to {
+    transform: scale(0.965);
+    filter: brightness(0.55);
+  }
+}
+
+@keyframes consume-new {
+  from {
+    clip-path: circle(0 at var(--ax, 50%) var(--ay, 50%));
+  }
+  to {
+    clip-path: circle(150% at var(--ax, 50%) var(--ay, 50%));
+  }
 }
 
 /* scramble-in for headlines */

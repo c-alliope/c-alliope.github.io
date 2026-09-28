@@ -156,7 +156,7 @@ const draftCount = projects.filter((p) => p.tag === 'DRAFT').length;
         <dl class="mt-10 grid grid-cols-2 md:grid-cols-4 border-t border-l border-bone/15">
           <div class="border-b border-r border-bone/15 px-4 py-3">
             <dt class="hud-label">focus</dt>
-            <dd class="mt-1 text-sm text-bone">ui + code</dd>
+            <dd class="mt-1 text-sm text-bone">ux/ui + design</dd>
           </div>
           <div class="border-b border-r border-bone/15 px-4 py-3">
             <dt class="hud-label">stack</dt>
@@ -176,7 +176,7 @@ const draftCount = projects.filter((p) => p.tag === 'DRAFT').length;
           </div>
           <div class="border-b border-r border-bone/15 px-4 py-3">
             <dt class="hud-label">works</dt>
-            <dd class="mt-1 text-sm text-bone">{draftCount > 0 ? `${draftCount} slots open` : `${projects.length} pieces`}</dd>
+            <dd class="mt-1 text-sm text-bone">{(() => { const f = projects.length - draftCount; return f === 1 ? '1 slot filled' : `${f} slots filled`; })()}</dd>
           </div>
           <div class="border-b border-r border-bone/15 px-4 py-3">
             <dt class="hud-label">posts</dt>
@@ -188,9 +188,6 @@ const draftCount = projects.filter((p) => p.tag === 'DRAFT').length;
           </div>
         </dl>
 
-        <div class="mt-8 flex flex-wrap gap-3">
-          <a href="/projects" data-absorb class="bg-blood px-6 py-3 text-sm font-bold tracking-wide text-white rounded-[2px] hover:bg-[#a50d27] transition-colors">ENTER WORKS</a>
-        </div>
       </section>
     </div>
   </div>

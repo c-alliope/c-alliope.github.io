@@ -1,43 +1,39 @@
-# Astro Starter Kit: Minimal
+# cal.dev
 
-```sh
-npm create astro@latest -- --template minimal
+Portfolio for cal / calliope — resume, works, log. Black `#060607` / blood `#c8102e` / bone `#e8e0d0`.
+Astro static site, hosted free on GitHub Pages. Full design spec: `~/projects/cal-dev-specs.md`.
+
+## Commands
+
+| Command       | Action                        |
+| ------------- | ----------------------------- |
+| `npm install` | Install dependencies          |
+| `npm run dev` | Local dev at `localhost:4321` |
+| `npm run build` | Static build to `./dist/`   |
+
+## Edit content (no HTML needed)
+
+| File                          | Controls              |
+| ----------------------------- | --------------------- |
+| `src/data/projects.json`      | Works gallery cards   |
+| `src/data/resume.json`        | Resume page           |
+| `src/content/blog/*.md`       | Blog — one file = one post |
+| `src/pages/library.astro`     | calliope red UI kit   |
+
+## Structure
+
+```
+src/
+  pages/        index (landing) · projects · resume · blog · library
+  layouts/      Base.astro — header, footer, absorb transition, cursor
+  components/   SpineConnector · ThornField (off landing)
+  data/         projects.json · resume.json
+  content/blog/ markdown posts
+  styles/       global.css — tokens, ridge/CRT/float/scrollbar
+.github/workflows/deploy.yml   pushes dist/ to Pages on every main push
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Deploy
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Push to `main` → Actions builds → serves at `https://c-alliope.github.io`.
+Custom domain (`calliope.red`): add `CNAME`, set `site:` in `astro.config.mjs`, point DNS at Pages.

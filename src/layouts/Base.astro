@@ -6,7 +6,7 @@ interface Props {
   title?: string;
   description?: string;
 }
-const { title = 'calliope.red', description = 'portfolio — resume, works, log. black / blood / bone.' } = Astro.props;
+const { title = 'cal.dev', description = 'portfolio — resume, works, log. black / blood / bone.' } = Astro.props;
 const path = Astro.url.pathname;
 ---
 
@@ -36,7 +36,7 @@ const path = Astro.url.pathname;
     <header class="no-print fixed top-0 left-0 right-0 z-50 border-b border-bone/10 bg-void/80 backdrop-blur-md">
       <div class="mx-auto flex max-w-5xl items-center justify-between px-4 py-2.5 md:px-8">
         <a href="/" data-absorb class="hud-label hover:text-blood transition-colors">
-          <span class="text-blood">●</span>&nbsp; calliope.red
+          <span class="text-blood">●</span>&nbsp; cal.dev
         </a>
         <nav class="flex items-center gap-4 md:gap-8">
           <a href="/resume" data-absorb class={`hud-label hover:text-bone transition-colors ${path.startsWith('/resume') ? 'text-bone' : ''}`}>resume</a>

@@ -12,7 +12,7 @@ const posts = (await getCollection('blog')).sort((a, b) => +b.data.date - +a.dat
       <div class="absolute left-[8%] top-1/2 h-[65%] w-[55%] -translate-y-1/2 rounded-full bg-blood/25 blur-[80px]" aria-hidden="true"></div>
       <h1 class="relative font-grot font-bold lowercase leading-none tracking-tight text-bone text-[18vw] md:text-[7rem]" style="text-shadow: 0 2px 18px rgba(0,0,0,0.75), 0 0 44px rgba(200,16,46,0.35);">log<span class="text-blood">.</span></h1>
     </div>
-    <p class="text-sm text-bone/60 mt-4 max-w-lg">Posts are <code class="text-blood">src/content/blog/*.md</code> files. New file = new page, no CMS, works on Pages.</p>
+    <p class="text-sm text-bone/60 mt-4 max-w-lg">field notes, process scraps, things worth keeping. markdown in, pages out.</p>
     <div class="rule my-8"></div>
     <div class="space-y-4">
       {posts.map((p) => (

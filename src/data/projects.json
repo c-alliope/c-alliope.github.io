@@ -4,7 +4,7 @@
     "title": "calliope red library",
     "tag": "SYSTEM",
     "year": "2026",
-    "blurb": "Living UI kit for cal.dev — buttons, inputs, toggles, chips, ridge surfaces. Same tokens everywhere.",
+    "blurb": "Every button, input and surface this site runs on — documented live.",
     "stack": ["astro", "tailwind"],
     "link": "/library",
     "tone": "red"

@@ -1,0 +1,62 @@
+---
+import Base from '../layouts/Base.astro';
+import resume from '../data/resume.json';
+---
+
+<Base title="cal.dev — resume">
+  <section class="mx-auto max-w-4xl px-4 md:px-8 pt-28 pb-16">
+    <p class="hud-label">01 / file — resume</p>
+    <div class="relative mt-2">
+      <div class="absolute left-[8%] top-1/2 h-[65%] w-[55%] -translate-y-1/2 rounded-full bg-blood/25 blur-[80px]" aria-hidden="true"></div>
+      <h1 class="relative font-grot font-bold lowercase leading-none tracking-tight text-bone text-[18vw] md:text-[7rem]" style="text-shadow: 0 2px 18px rgba(0,0,0,0.75), 0 0 44px rgba(200,16,46,0.35);">resume<span class="text-blood">.</span></h1>
+    </div>
+    <p class="mt-4 font-grot text-xl font-bold lowercase text-bone">{resume.name}</p>
+    <p class="hud-label mt-2 text-blood">{resume.role} — {resume.location}</p>
+    <p class="mt-6 text-bone/80 leading-relaxed max-w-2xl">{resume.summary}</p>
+
+    <div class="mt-6 flex gap-3 no-print">
+      <button onclick="window.print()" class="hud-label border border-blood text-blood px-4 py-2 hover:bg-blood hover:text-white transition-colors">↓ print / pdf</button>
+      {resume.links.map((l) => (
+        <a href={l.href} target="_blank" rel="noreferrer" class="hud-label border border-bone/20 px-4 py-2 hover:border-blood hover:text-blood transition-colors">{l.label} ↗</a>
+      ))}
+    </div>
+
+    <div class="rule my-10"></div>
+
+    <h2 class="hud-label text-blood">skills</h2>
+    <div class="flex flex-wrap gap-2 mt-4">
+      {resume.skills.map((s) => (
+        <span class="hud-label border border-bone/20 px-3 py-1.5">{s}</span>
+      ))}
+    </div>
+
+    <h2 class="hud-label text-blood mt-12">experience</h2>
+    <div class="mt-4 space-y-6">
+      {resume.experience.map((e) => (
+        <article class="border-l-2 border-blood pl-5">
+          <div class="flex flex-wrap justify-between gap-2">
+            <h3 class="font-grot font-bold text-xl">{e.role} — <span class="text-bone/70">{e.org}</span></h3>
+            <span class="hud-label">{e.dates}</span>
+          </div>
+          <ul class="mt-2 space-y-1 text-sm text-bone/70 list-disc ml-4">
+            {e.points.map((pt) => (<li>{pt}</li>))}
+          </ul>
+        </article>
+      ))}
+    </div>
+
+    {resume.education.length > 0 && (
+      <div>
+        <h2 class="hud-label text-blood mt-12">education</h2>
+        <ul class="mt-4 text-sm text-bone/70 space-y-2">
+          {resume.education.map((ed) => (<li>{ed}</li>))}
+        </ul>
+      </div>
+    )}
+
+    <div class="mt-12 border border-dashed border-bone/25 p-5 no-print">
+      <p class="hud-label">work on it as you go</p>
+      <p class="text-xs text-bone/60 mt-2">Edit <code class="text-blood">src/data/resume.json</code> — page + print layout update automatically. Contact email goes in there too.</p>
+    </div>
+  </section>
+</Base>

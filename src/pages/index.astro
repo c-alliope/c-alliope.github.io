@@ -1,0 +1,197 @@
+---
+import Base from '../layouts/Base.astro';
+import SpineConnector from '../components/SpineConnector.astro';
+import projects from '../data/projects.json';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort((a, b) => +b.data.date - +a.data.date).slice(0, 3);
+const draftCount = projects.filter((p) => p.tag === 'DRAFT').length;
+---
+
+<Base title="cal.dev">
+  <div class="relative">
+    <!-- spine roams the left margin on very wide screens only, so the page stays centered -->
+    <SpineConnector class="absolute left-6 top-24 bottom-0 z-0 hidden w-[150px] 2xl:block opacity-70" />
+
+    <div class="relative z-10">
+      <!-- HERO -->
+      <section class="mx-auto max-w-5xl px-4 md:px-8 pt-28 md:pt-36 pb-16">
+        <!-- FLOATING RECTANGLES -->
+        <div class="relative mt-4 h-[430px] md:h-[560px]">
+          <div class="absolute left-1/2 top-1/2 h-[70%] w-[80%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blood/20 blur-[100px]" aria-hidden="true"></div>
+
+          <!-- panel A → resume -->
+          <a href="/resume" data-absorb class="float-rect group absolute left-[2%] top-[10%] h-[72%] w-[30%] overflow-hidden rounded-[2px] border border-bone/20 hover:border-blood transition-colors" style="--fd:8s; rotate:-3deg" aria-label="resume">
+            <span class="absolute left-3 top-2.5 z-10 font-grot text-sm font-bold lowercase tracking-tight text-bone transition-colors group-hover:text-blood" style="text-shadow:0 1px 10px rgba(0,0,0,.85)">resume</span>
+            <span class="hud-label absolute right-3 top-3 z-10 !text-bone/50">01</span>
+            <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" class="absolute inset-0 h-full w-full">
+              <defs>
+                <linearGradient id="rgA" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#232329"/><stop offset="0.52" stop-color="#4d0e1a"/><stop offset="1" stop-color="#a50d27"/>
+                </linearGradient>
+                <radialGradient id="rgvA" cx="0.5" cy="0.42" r="0.75">
+                  <stop offset="0.55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.55"/>
+                </radialGradient>
+                <filter id="rgfA" x="0%" y="0%" width="100%" height="100%">
+                  <feTurbulence type="fractalNoise" baseFrequency="0.008 0.11" numOctaves="4" seed="8" stitchTiles="stitch" result="n"/>
+                  <feColorMatrix in="n" type="saturate" values="0" result="g"/>
+                  <feComponentTransfer result="b">
+                    <feFuncR type="discrete" tableValues="0 0.3 0.55 0.8 1"/><feFuncG type="discrete" tableValues="0 0.3 0.55 0.8 1"/><feFuncB type="discrete" tableValues="0 0.3 0.55 0.8 1"/>
+                  </feComponentTransfer>
+                </filter>
+                <filter id="rglA" x="0%" y="0%" width="100%" height="100%">
+                  <feTurbulence type="fractalNoise" baseFrequency="0.006 0.045" numOctaves="3" seed="30" stitchTiles="stitch" result="n"/>
+                  <feColorMatrix in="n" type="saturate" values="0" result="g"/>
+                  <feComponentTransfer>
+                    <feFuncR type="discrete" tableValues="0 0 1 1"/><feFuncG type="discrete" tableValues="0 0 1 1"/><feFuncB type="discrete" tableValues="0 0 1 1"/>
+                  </feComponentTransfer>
+                </filter>
+              </defs>
+              <rect width="400" height="500" fill="url(#rgA)"/>
+              <rect width="400" height="500" filter="url(#rgfA)" opacity="0.5" style="mix-blend-mode:overlay"/>
+              <rect width="400" height="500" filter="url(#rglA)" opacity="0.4" style="mix-blend-mode:soft-light"/>
+              <rect width="400" height="500" fill="url(#rgvA)"/>
+            </svg>
+            <div class="crt absolute inset-0"></div>
+          </a>
+
+          <!-- panel B (main) → works -->
+          <a href="/projects" data-absorb class="float-rect group absolute left-[32%] top-0 h-[90%] w-[37%] overflow-hidden rounded-[2px] border border-bone/25 hover:border-blood transition-colors" style="--fd:11s; rotate:1deg" aria-label="works">
+            <span class="absolute left-3 top-2.5 z-10 font-grot text-sm font-bold lowercase tracking-tight text-bone transition-colors group-hover:text-blood" style="text-shadow:0 1px 10px rgba(0,0,0,.85)">works</span>
+            <span class="hud-label absolute right-3 top-3 z-10 !text-bone/50">02</span>
+            <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" class="absolute inset-0 h-full w-full">
+              <defs>
+                <linearGradient id="rgB" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#1c1c22"/><stop offset="0.5" stop-color="#5c0f1e"/><stop offset="1" stop-color="#c8102e"/>
+                </linearGradient>
+                <radialGradient id="rgvB" cx="0.5" cy="0.42" r="0.75">
+                  <stop offset="0.55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.55"/>
+                </radialGradient>
+                <filter id="rgfB" x="0%" y="0%" width="100%" height="100%">
+                  <feTurbulence type="fractalNoise" baseFrequency="0.01 0.09" numOctaves="4" seed="21" stitchTiles="stitch" result="n"/>
+                  <feColorMatrix in="n" type="saturate" values="0" result="g"/>
+                  <feComponentTransfer result="b">
+                    <feFuncR type="discrete" tableValues="0 0.3 0.55 0.8 1"/><feFuncG type="discrete" tableValues="0 0.3 0.55 0.8 1"/><feFuncB type="discrete" tableValues="0 0.3 0.55 0.8 1"/>
+                  </feComponentTransfer>
+                </filter>
+                <filter id="rglB" x="0%" y="0%" width="100%" height="100%">
+                  <feTurbulence type="fractalNoise" baseFrequency="0.005 0.04" numOctaves="3" seed="77" stitchTiles="stitch" result="n"/>
+                  <feColorMatrix in="n" type="saturate" values="0" result="g"/>
+                  <feComponentTransfer>
+                    <feFuncR type="discrete" tableValues="0 0 1 1"/><feFuncG type="discrete" tableValues="0 0 1 1"/><feFuncB type="discrete" tableValues="0 0 1 1"/>
+                  </feComponentTransfer>
+                </filter>
+              </defs>
+              <rect width="400" height="500" fill="url(#rgB)"/>
+              <rect width="400" height="500" filter="url(#rgfB)" opacity="0.5" style="mix-blend-mode:overlay"/>
+              <rect width="400" height="500" filter="url(#rglB)" opacity="0.4" style="mix-blend-mode:soft-light"/>
+              <rect width="400" height="500" fill="url(#rgvB)"/>
+            </svg>
+            <div class="crt absolute inset-0"></div>
+          </a>
+
+          <!-- panel C → log -->
+          <a href="/blog" data-absorb class="float-rect group absolute right-[2%] top-[16%] h-[68%] w-[29%] overflow-hidden rounded-[2px] border border-bone/20 hover:border-blood transition-colors" style="--fd:9.5s; rotate:2.5deg" aria-label="log">
+            <span class="absolute left-3 top-2.5 z-10 font-grot text-sm font-bold lowercase tracking-tight text-bone transition-colors group-hover:text-blood" style="text-shadow:0 1px 10px rgba(0,0,0,.85)">log</span>
+            <span class="hud-label absolute right-3 top-3 z-10 !text-bone/50">03</span>
+            <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" class="absolute inset-0 h-full w-full">
+              <defs>
+                <linearGradient id="rgC" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#232329"/><stop offset="0.55" stop-color="#3d0c16"/><stop offset="1" stop-color="#7a0a1e"/>
+                </linearGradient>
+                <radialGradient id="rgvC" cx="0.5" cy="0.42" r="0.75">
+                  <stop offset="0.55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.55"/>
+                </radialGradient>
+                <filter id="rgfC" x="0%" y="0%" width="100%" height="100%">
+                  <feTurbulence type="fractalNoise" baseFrequency="0.007 0.13" numOctaves="4" seed="4" stitchTiles="stitch" result="n"/>
+                  <feColorMatrix in="n" type="saturate" values="0" result="g"/>
+                  <feComponentTransfer result="b">
+                    <feFuncR type="discrete" tableValues="0 0.3 0.55 0.8 1"/><feFuncG type="discrete" tableValues="0 0.3 0.55 0.8 1"/><feFuncB type="discrete" tableValues="0 0.3 0.55 0.8 1"/>
+                  </feComponentTransfer>
+                </filter>
+                <filter id="rglC" x="0%" y="0%" width="100%" height="100%">
+                  <feTurbulence type="fractalNoise" baseFrequency="0.007 0.05" numOctaves="3" seed="52" stitchTiles="stitch" result="n"/>
+                  <feColorMatrix in="n" type="saturate" values="0" result="g"/>
+                  <feComponentTransfer>
+                    <feFuncR type="discrete" tableValues="0 0 1 1"/><feFuncG type="discrete" tableValues="0 0 1 1"/><feFuncB type="discrete" tableValues="0 0 1 1"/>
+                  </feComponentTransfer>
+                </filter>
+              </defs>
+              <rect width="400" height="500" fill="url(#rgC)"/>
+              <rect width="400" height="500" filter="url(#rgfC)" opacity="0.5" style="mix-blend-mode:overlay"/>
+              <rect width="400" height="500" filter="url(#rglC)" opacity="0.4" style="mix-blend-mode:soft-light"/>
+              <rect width="400" height="500" fill="url(#rgvC)"/>
+            </svg>
+            <div class="crt absolute inset-0"></div>
+          </a>
+
+          <!-- panel D (low) → github -->
+          <a href="https://github.com/c-alliope" target="_blank" rel="noreferrer" class="float-rect group absolute bottom-0 left-[24%] h-[30%] w-[22%] overflow-hidden rounded-[2px] border border-bone/20 hover:border-blood transition-colors" style="--fd:10s; rotate:-1.5deg" aria-label="github">
+            <span class="absolute left-3 top-2.5 z-10 font-grot text-sm font-bold lowercase tracking-tight text-bone transition-colors group-hover:text-blood" style="text-shadow:0 1px 10px rgba(0,0,0,.85)">github</span>
+            <span class="hud-label absolute right-3 top-3 z-10 !text-bone/50">↗</span>
+            <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" class="absolute inset-0 h-full w-full">
+              <defs>
+                <linearGradient id="rgD" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#1c1c22"/><stop offset="0.5" stop-color="#4d0e1a"/><stop offset="1" stop-color="#a50d27"/>
+                </linearGradient>
+                <filter id="rgfD" x="0%" y="0%" width="100%" height="100%">
+                  <feTurbulence type="fractalNoise" baseFrequency="0.012 0.08" numOctaves="4" seed="33" stitchTiles="stitch" result="n"/>
+                  <feColorMatrix in="n" type="saturate" values="0" result="g"/>
+                  <feComponentTransfer result="b">
+                    <feFuncR type="discrete" tableValues="0 0.3 0.55 0.8 1"/><feFuncG type="discrete" tableValues="0 0.3 0.55 0.8 1"/><feFuncB type="discrete" tableValues="0 0.3 0.55 0.8 1"/>
+                  </feComponentTransfer>
+                </filter>
+              </defs>
+              <rect width="400" height="200" fill="url(#rgD)"/>
+              <rect width="400" height="200" filter="url(#rgfD)" opacity="0.5" style="mix-blend-mode:overlay"/>
+            </svg>
+            <div class="crt absolute inset-0"></div>
+          </a>
+
+          <!-- word -->
+          <h1 class="pointer-events-none absolute inset-x-0 top-1/2 z-20 -translate-y-1/2 text-center font-grot text-[16vw] font-bold lowercase leading-none tracking-tight text-bone md:text-[8.5rem]" style="text-shadow: 0 2px 18px rgba(0,0,0,0.75), 0 0 44px rgba(200,16,46,0.35);">calliope</h1>
+        </div>
+
+        <!-- dossier -->
+        <dl class="mt-10 grid grid-cols-2 md:grid-cols-4 border-t border-l border-bone/15">
+          <div class="border-b border-r border-bone/15 px-4 py-3">
+            <dt class="hud-label">focus</dt>
+            <dd class="mt-1 text-sm text-bone">ui + code</dd>
+          </div>
+          <div class="border-b border-r border-bone/15 px-4 py-3">
+            <dt class="hud-label">stack</dt>
+            <dd class="mt-1 text-sm text-bone">astro · static</dd>
+          </div>
+          <div class="border-b border-r border-bone/15 px-4 py-3">
+            <dt class="hud-label">base</dt>
+            <dd class="mt-1 text-sm text-bone">github pages</dd>
+          </div>
+          <div class="border-b border-r border-bone/15 px-4 py-3">
+            <dt class="hud-label">status</dt>
+            <dd class="mt-1 text-sm text-blood">in progress</dd>
+          </div>
+          <div class="border-b border-r border-bone/15 px-4 py-3">
+            <dt class="hud-label">sections</dt>
+            <dd class="mt-1 text-sm text-bone">03 — resume · works · log</dd>
+          </div>
+          <div class="border-b border-r border-bone/15 px-4 py-3">
+            <dt class="hud-label">works</dt>
+            <dd class="mt-1 text-sm text-bone">{draftCount > 0 ? `${draftCount} slots open` : `${projects.length} pieces`}</dd>
+          </div>
+          <div class="border-b border-r border-bone/15 px-4 py-3">
+            <dt class="hud-label">posts</dt>
+            <dd class="mt-1 text-sm text-bone">{posts.length} in log</dd>
+          </div>
+          <div class="border-b border-r border-bone/15 px-4 py-3">
+            <dt class="hud-label">source</dt>
+            <dd class="mt-1 text-sm text-bone">1 repo</dd>
+          </div>
+        </dl>
+
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="/projects" data-absorb class="bg-blood px-6 py-3 text-sm font-bold tracking-wide text-white rounded-[2px] hover:bg-[#a50d27] transition-colors">ENTER WORKS</a>
+        </div>
+      </section>
+    </div>
+  </div>
+</Base>

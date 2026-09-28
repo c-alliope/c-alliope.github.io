@@ -1,0 +1,209 @@
+@import "tailwindcss";
+
+@theme {
+  --color-void: #060607;
+  --color-coal: #0e0e12;
+  --color-panel: #121218;
+  --color-blood: #c8102e;
+  --color-blood-deep: #7a0a1e;
+  --color-bone: #e8e0d0;
+  --color-ash: #8a8a93;
+  --color-smoke: #1c1c22;
+
+  --font-display: "Pirata One", "Cormorant Garamond", serif;
+  --font-serif2: "Cormorant Garamond", Georgia, serif;
+  --font-grot: "Space Grotesk", system-ui, sans-serif;
+  --font-mono2: "JetBrains Mono", ui-monospace, monospace;
+}
+
+html {
+  background: var(--color-void);
+  color: var(--color-bone);
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-void);
+  color: var(--color-bone);
+  font-family: var(--font-grot);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-blood);
+  color: white;
+}
+
+/* scrollbar — thin void track, blood thumb */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-blood-deep) var(--color-void);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-void);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-blood-deep);
+  border: 2px solid var(--color-void);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-blood);
+}
+
+/* grain — 5.5%, static, calm */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 90;
+  opacity: 0.055;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.display-black {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  line-height: 0.82;
+}
+
+.hud-label {
+  font-family: var(--font-mono2);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-ash);
+}
+
+.vertical-rail {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+.red-sun {
+  background: radial-gradient(circle at 35% 35%, #ff2b4a 0%, var(--color-blood) 38%, var(--color-blood-deep) 72%, #1a0206 100%);
+  box-shadow: 0 0 120px rgba(200, 16, 46, 0.45), 0 0 400px rgba(200, 16, 46, 0.2);
+}
+
+.poster-card {
+  border: 1px solid rgba(232, 224, 208, 0.16);
+  border-radius: 2px;
+  transition: border-color 0.3s;
+}
+
+.poster-card:hover {
+  border-color: var(--color-blood);
+}
+
+/* absorb wipe overlay */
+#absorb {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  background: var(--color-blood);
+  clip-path: circle(0% at var(--ax, 50%) var(--ay, 50%));
+  transition: clip-path 0.7s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+#absorb.active {
+  clip-path: circle(150% at var(--ax, 50%) var(--ay, 50%));
+}
+
+/* view transitions */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.45s;
+  animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* scramble-in for headlines */
+.scramble {
+  display: inline-block;
+}
+
+/* floating ridge panels — bloom + a little CRT */
+.float-rect {
+  animation: floaty var(--fd, 9s) ease-in-out infinite;
+  box-shadow: 0 0 70px -18px rgba(200, 16, 46, 0.5), 0 30px 60px -30px rgba(0, 0, 0, 0.9);
+}
+
+@keyframes floaty {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -12px; }
+}
+
+.crt {
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.3) 0 1px, transparent 1px 3px);
+}
+
+.crt::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 22%;
+  top: -30%;
+  background: linear-gradient(180deg, transparent, rgba(232, 224, 208, 0.06), transparent);
+  animation: crt-scan 7s linear infinite;
+}
+
+@keyframes crt-scan {
+  to { top: 120%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .float-rect { animation: none; }
+  .crt::after { animation: none; }
+}
+
+/* thin rules like your refs */
+.rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(232,224,208,0.25), transparent);
+}
+
+.halftone {
+  background-image: radial-gradient(rgba(232,224,208,0.22) 1px, transparent 1.4px);
+  background-size: 12px 12px;
+}
+
+/* custom cursor dot */
+@media (pointer: fine) {
+  .cursor-dot {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: var(--color-blood);
+    border-radius: 999px;
+    pointer-events: none;
+    z-index: 120;
+    mix-blend-mode: screen;
+    transform: translate(-50%, -50%);
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(200,16,46,0.7);
+    border-radius: 999px;
+    pointer-events: none;
+    z-index: 120;
+    transform: translate(-50%, -50%);
+    transition: width 0.25s, height 0.25s;
+  }
+}
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: white; color: black; }
+}

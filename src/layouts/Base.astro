@@ -1,0 +1,121 @@
+---
+import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+const { title = 'cal.dev', description = 'portfolio — resume, works, log. black / blood / bone.' } = Astro.props;
+const path = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="en" class="grain">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title}</title>
+    <ClientRouter />
+  </head>
+  <body class="min-h-screen bg-void text-bone antialiased">
+    <div id="absorb" aria-hidden="true"></div>
+    <div class="cursor-dot no-print hidden md:block" id="cdot" aria-hidden="true"></div>
+    <div class="cursor-ring no-print hidden md:block" id="cring" aria-hidden="true"></div>
+
+    <!-- HUD top bar -->
+    <header class="no-print fixed top-0 left-0 right-0 z-50 border-b border-bone/10 bg-void/80 backdrop-blur-md">
+      <div class="mx-auto flex max-w-5xl items-center justify-between px-4 py-2.5 md:px-8">
+        <a href="/" data-absorb class="hud-label hover:text-blood transition-colors">
+          <span class="text-blood">●</span>&nbsp; cal.dev
+        </a>
+        <nav class="flex items-center gap-4 md:gap-8">
+          <a href="/resume" data-absorb class={`hud-label hover:text-bone transition-colors ${path.startsWith('/resume') ? 'text-bone' : ''}`}>resume</a>
+          <a href="/projects" data-absorb class={`hud-label hover:text-bone transition-colors ${path.startsWith('/projects') ? 'text-bone' : ''}`}>works</a>
+          <a href="/blog" data-absorb class={`hud-label hover:text-bone transition-colors ${path.startsWith('/blog') ? 'text-bone' : ''}`}>log</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="relative z-10">
+      <slot />
+    </main>
+
+    <footer class="no-print relative z-10 border-t border-bone/10 mt-24">
+      <div class="mx-auto max-w-5xl px-4 md:px-8 py-10 flex flex-col md:flex-row justify-between gap-6">
+        <div>
+          <p class="display-black text-3xl">cal</p>
+          <p class="hud-label mt-2">black / blood / bone — v1.0</p>
+        </div>
+        <div class="flex gap-6 items-end">
+          <a href="https://github.com/c-alliope" class="hud-label hover:text-blood" target="_blank" rel="noreferrer">github ↗</a>
+          <a href="/blog" data-absorb class="hud-label hover:text-blood">log</a>
+          <a href="/resume" data-absorb class="hud-label hover:text-blood">resume</a>
+        </div>
+      </div>
+      <div class="rule"></div>
+      <p class="text-center hud-label py-4 opacity-60">© 2026 cal / calliope — built with astro + three.js, hosted on github pages</p>
+    </footer>
+
+    <script>
+      // absorb / branch transition: red circle expands from click point, then navigates
+      document.addEventListener('click', (e) => {
+        const t = (e.target as HTMLElement).closest('a[data-absorb]') as HTMLAnchorElement | null;
+        if (!t) return;
+        const href = t.getAttribute('href');
+        if (!href || href.startsWith('http') || href.startsWith('#') || e.metaKey || e.ctrlKey) return;
+        e.preventDefault();
+        const overlay = document.getElementById('absorb');
+        if (!overlay) { window.location.href = href; return; }
+        overlay.style.setProperty('--ax', e.clientX + 'px');
+        overlay.style.setProperty('--ay', e.clientY + 'px');
+        overlay.classList.add('active');
+        // boost thornfield warp if present
+        (window as any).__warpBoost?.();
+        setTimeout(() => { window.location.href = href; }, 550);
+      });
+
+      // custom cursor
+      const dot = document.getElementById('cdot');
+      const ring = document.getElementById('cring');
+      if (dot && ring && matchMedia('(pointer:fine)').matches) {
+        let mx = -100, my = -100, rx = -100, ry = -100;
+        addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; });
+        (function loop() {
+          rx += (mx - rx) * 0.16; ry += (my - ry) * 0.16;
+          dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+          ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+          requestAnimationFrame(loop);
+        })();
+      }
+
+      // headline scramble on load
+      const chars = '█▓▒░<>/\\|+×#CALIOPE01';
+      document.querySelectorAll('.scramble').forEach((el) => {
+        const orig = el.textContent || '';
+        let frame = 0;
+        const total = 28;
+        const timer = setInterval(() => {
+          frame++;
+          const p = frame / total;
+          const reveal = Math.floor(orig.length * p);
+          let out = orig.slice(0, reveal);
+          for (let i = reveal; i < orig.length; i++) {
+            out += orig[i] === ' ' ? ' ' : chars[Math.floor(Math.random() * chars.length)];
+          }
+          el.textContent = out;
+          if (frame >= total) { el.textContent = orig; clearInterval(timer); }
+        }, 30);
+      });
+    </script>
+  </body>
+</html>

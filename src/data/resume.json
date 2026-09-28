@@ -1,0 +1,18 @@
+{
+  "name": "cal / calliope",
+  "role": "— add your role as you go —",
+  "location": "—",
+  "email": "—",
+  "summary": "Placeholder resume. Edit src/data/resume.json as you go — every section renders automatically. No need to touch HTML.",
+  "skills": ["— add skills —"],
+  "experience": [
+    {
+      "role": "First entry — replace me",
+      "org": "Somewhere",
+      "dates": "2026 —",
+      "points": ["What you built / learned, one line each."]
+    }
+  ],
+  "education": [],
+  "links": [{ "label": "github", "href": "https://github.com/c-alliope" }]
+}

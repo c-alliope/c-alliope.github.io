@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort((a, b) => +b.data.date - +a.data.date);
+---
+
+<Base title="cal.dev — log">
+  <section class="mx-auto max-w-4xl px-4 md:px-8 pt-28 pb-16">
+    <p class="hud-label">03 / log — markdown blog</p>
+    <div class="relative mt-2">
+      <div class="absolute left-[8%] top-1/2 h-[65%] w-[55%] -translate-y-1/2 rounded-full bg-blood/25 blur-[80px]" aria-hidden="true"></div>
+      <h1 class="relative font-grot font-bold lowercase leading-none tracking-tight text-bone text-[18vw] md:text-[7rem]" style="text-shadow: 0 2px 18px rgba(0,0,0,0.75), 0 0 44px rgba(200,16,46,0.35);">log<span class="text-blood">.</span></h1>
+    </div>
+    <p class="text-sm text-bone/60 mt-4 max-w-lg">Posts are <code class="text-blood">src/content/blog/*.md</code> files. New file = new page, no CMS, works on Pages.</p>
+    <div class="rule my-8"></div>
+    <div class="space-y-4">
+      {posts.map((p) => (
+        <a href={`/blog/${p.slug}`} data-absorb class="poster-card block bg-coal p-6 group">
+          <div class="flex justify-between">
+            <span class="hud-label text-blood">{p.data.tag}</span>
+            <span class="hud-label">{p.data.date.toISOString().slice(0, 10)}</span>
+          </div>
+          <h2 class="font-grot font-bold text-2xl md:text-3xl mt-3 group-hover:text-blood transition-colors">{p.data.title}</h2>
+          <p class="text-sm text-bone/60 mt-2">{p.data.blurb}</p>
+        </a>
+      ))}
+      {posts.length === 0 && <p class="hud-label">no posts yet — add one in src/content/blog/</p>}
+    </div>
+  </section>
+</Base>

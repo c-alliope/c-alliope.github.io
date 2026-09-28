@@ -1,0 +1,134 @@
+---
+// SpineConnector — engraved spinal column with blood-red sprigs.
+// Roams the page as a connector rail: place inside a relative parent,
+// it spans full height with a slow scroll drift. Loves bones.
+interface Props {
+  class?: string;
+  drift?: boolean;
+}
+const { class: cls = '', drift = true } = Astro.props;
+
+const BONE = '#e8e0d0';
+const COAL = '#141419';
+const BLOOD = '#c8102e';
+const DEEP = '#7a0a1e';
+
+// vertebrae marching down a gentle S-curve, growing toward the base
+const N = 18;
+const verts = Array.from({ length: N }, (_, i) => {
+  const t = i / (N - 1);
+  const y = 70 + i * 76;
+  const x = 120 + 44 * Math.sin(t * Math.PI * 2.1 - 0.6);
+  const s = 0.68 + t * 0.6;
+  const rot = 8 * Math.cos(t * Math.PI * 2.1 - 0.6);
+  return { x, y, s, rot, i };
+});
+
+// blood sprigs pinned to a few vertebrae: side alternates, fan blooms at tips
+const sprigs = [
+  { v: 2, side: 1, len: 120, fans: 3 },
+  { v: 6, side: -1, len: 140, fans: 4 },
+  { v: 10, side: 1, len: 130, fans: 3 },
+  { v: 14, side: -1, len: 110, fans: 3 },
+];
+
+// fan bloom centered at (0,0), opening upward, radius r
+function fan(r: number, seed: number) {
+  const ribs = 9;
+  const lines = Array.from({ length: ribs }, (_, k) => {
+    const a = (-62 + (124 * k) / (ribs - 1) + seed * 7) * (Math.PI / 180);
+    return { x2: Math.sin(a) * r, y2: -Math.cos(a) * r };
+  });
+  // scalloped outer edge through rib tips
+  const pts = lines.map((l) => `${l.x2.toFixed(1)},${l.y2.toFixed(1)}`).join(' ');
+  return { lines, edge: pts };
+}
+const fans = [
+  { ...fan(34, 1), dx: 0, dy: -96, s: 1 },
+  { ...fan(24, 4), dx: -34, dy: -58, s: 0.8 },
+  { ...fan(20, 8), dx: 36, dy: -52, s: 0.7 },
+];
+---
+
+<div class={`spine-rail pointer-events-none select-none ${cls}`} aria-hidden="true" data-drift={drift ? 'on' : 'off'}>
+  <svg viewBox="0 0 240 1500" class="h-full w-full" fill="none">
+    <!-- faint channel the column travels -->
+    <path
+      d="M120,10 C 70,220 175,360 128,540 C 84,712 170,880 132,1060 C 104,1210 140,1360 122,1490"
+      stroke={BONE} stroke-opacity="0.14" stroke-width="2" stroke-dasharray="3 9"
+    />
+
+    <!-- blood sprigs behind bone -->
+    {sprigs.map((sp) => {
+      const v = verts[sp.v];
+      const bx = v.x;
+      const by = v.y;
+      const dir = sp.side;
+      const tipX = bx + dir * sp.len;
+      const tipY = by - 74;
+      const midX = bx + dir * sp.len * 0.55;
+      const midY = by - 30;
+      return (
+        <g>
+          <path d={`M${bx},${by} Q${midX},${midY} ${tipX},${tipY}`} stroke={BLOOD} stroke-width="3" stroke-linecap="round" />
+          <path d={`M${midX},${midY} Q${midX + dir * 26},${midY - 30} ${midX + dir * 12},${midY - 52}`} stroke={BLOOD} stroke-width="2" stroke-linecap="round" />
+          <circle cx={midX + dir * 12} cy={midY - 56} r="4" fill={BLOOD} />
+          {fans.slice(0, sp.fans).map((f) => (
+            <g transform={`translate(${tipX + f.dx * dir * 0.6},${tipY + f.dy * 0.5}) scale(${f.s})`}>
+              <polygon points={f.edge} fill={BLOOD} opacity="0.92" />
+              {f.lines.map((l) => (
+                <line x1="0" y1="0" x2={l.x2} y2={l.y2} stroke={DEEP} stroke-width="1.4" />
+              ))}
+              <line x1="0" y1="0" x2="0" y2="26" stroke={BLOOD} stroke-width="3" stroke-linecap="round" />
+            </g>
+          ))}
+        </g>
+      );
+    })}
+
+    <!-- the column -->
+    {verts.map((v) => (
+      <g transform={`translate(${v.x.toFixed(1)},${v.y.toFixed(1)}) rotate(${v.rot.toFixed(1)}) scale(${v.s.toFixed(2)})`}>
+        <!-- transverse processes -->
+        <path d="M-24,-6 L-72,-16 L-70,-4 L-24,4 Z" fill={BONE} stroke={COAL} stroke-width="2" stroke-linejoin="round" />
+        <path d="M24,2 L76,10 L74,22 L24,12 Z" fill={BONE} stroke={COAL} stroke-width="2" stroke-linejoin="round" />
+        <!-- body -->
+        <rect x="-30" y="-16" width="60" height="32" rx="9" fill={BONE} stroke={COAL} stroke-width="2.5" />
+        <!-- engraved growth lines -->
+        <path d="M-22,-6 H22 M-22,0 H22 M-22,6 H22" stroke={COAL} stroke-width="1" opacity="0.45" />
+        <!-- foramen -->
+        <ellipse cx="0" cy="0" rx="6" ry="8" fill={COAL} opacity="0.8" />
+        <!-- spinous nub -->
+        <path d="M-6,16 L0,28 L6,16 Z" fill={BONE} stroke={COAL} stroke-width="2" stroke-linejoin="round" />
+      </g>
+    ))}
+
+    <!-- root bloom at the base -->
+    <g transform="translate(122,1444)">
+      <polygon points={fan(44, 2).edge} fill={BLOOD} opacity="0.95" />
+      {fan(44, 2).lines.map((l) => (
+        <line x1="0" y1="0" x2={l.x2} y2={l.y2} stroke={DEEP} stroke-width="1.6" />
+      ))}
+    </g>
+  </svg>
+</div>
+
+<script>
+  const rail = document.querySelector('.spine-rail[data-drift="on"]');
+  if (rail && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const el = rail as HTMLElement;
+    let raf = 0;
+    addEventListener('scroll', () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        el.style.transform = `translateY(${scrollY * 0.05}px)`;
+      });
+    }, { passive: true });
+  }
+</script>
+
+<style>
+  .spine-rail {
+    will-change: transform;
+  }
+</style>

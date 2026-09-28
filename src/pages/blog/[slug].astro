@@ -1,0 +1,29 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((p: any) => {
+    const slug = p.slug ?? p.id.replace(/\.mdx?$/, '').split('/').pop();
+    return { params: { slug }, props: { post: p } };
+  });
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Base title={`${post.data.title} — cal.dev`}>
+  <article class="mx-auto max-w-2xl px-4 md:px-8 pt-28 pb-16">
+    <a href="/blog" data-absorb class="hud-label text-blood no-print">← all logs</a>
+    <p class="hud-label mt-6">{post.data.tag} — {post.data.date.toISOString().slice(0, 10)}</p>
+    <h1 class="font-grot font-bold lowercase text-4xl md:text-5xl mt-3 leading-tight tracking-tight" style="text-shadow: 0 2px 18px rgba(0,0,0,0.75), 0 0 44px rgba(200,16,46,0.35);">{post.data.title}</h1>
+    <div class="rule my-8"></div>
+    <div class="prose prose-invert prose-red max-w-none text-bone/85 leading-relaxed
+      prose-headings:font-[Space_Grotesk] prose-headings:text-bone
+      prose-a:text-[#ff2b4a] prose-hr:border-bone/15">
+      <Content />
+    </div>
+  </article>
+</Base>

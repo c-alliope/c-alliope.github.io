@@ -1,0 +1,32 @@
+[
+  {
+    "slug": "calliope-red-library",
+    "title": "calliope red library",
+    "tag": "SYSTEM",
+    "year": "2026",
+    "blurb": "Living UI kit for cal.dev — buttons, inputs, toggles, chips, ridge surfaces. Same tokens everywhere.",
+    "stack": ["astro", "tailwind"],
+    "link": "/library",
+    "tone": "red"
+  },
+  {
+    "slug": "example-thorn",
+    "title": "SECOND SLOT",
+    "tag": "DRAFT",
+    "year": "2026",
+    "blurb": "Second placeholder. Aim for 3–6 real pieces: interactive sites, visual experiments, tools, zines.",
+    "stack": ["design", "code"],
+    "link": "#",
+    "tone": "bone"
+  },
+  {
+    "slug": "example-root",
+    "title": "THIRD SLOT",
+    "tag": "DRAFT",
+    "year": "2026",
+    "blurb": "Third placeholder. Keep blurbs to 1–2 lines, poster-style.",
+    "stack": ["tbd"],
+    "link": "#",
+    "tone": "black"
+  }
+]

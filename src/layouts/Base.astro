@@ -28,8 +28,8 @@ const path = Astro.url.pathname;
     <ClientRouter />
   </head>
   <body class="min-h-screen bg-void text-bone antialiased">
-    <div class="cursor-dot no-print hidden md:block" id="cdot" aria-hidden="true"></div>
-    <div class="cursor-ring no-print hidden md:block" id="cring" aria-hidden="true"></div>
+    <div class="cursor-dot no-print hidden md:block" id="cdot" style="opacity:0" aria-hidden="true"></div>
+    <div class="cursor-ring no-print hidden md:block" id="cring" style="opacity:0" aria-hidden="true"></div>
     <button id="sound-toggle" aria-pressed="false" class="hud-label no-print fixed bottom-4 right-4 z-[60] border border-bone/25 bg-void/80 px-3 py-2 backdrop-blur-md hover:border-blood hover:text-blood transition-colors">sound — off</button>
 
     <!-- HUD top bar -->
@@ -69,40 +69,69 @@ const path = Astro.url.pathname;
     <script>
       import { navigate } from 'astro:transitions/client';
       // consume transition: the new page masks in from the click point and eats the old one.
-      // capture + stopPropagation keeps the router out — exactly one history entry.
-      document.addEventListener('click', (e) => {
-        const t = (e.target as HTMLElement).closest('a[data-absorb]') as HTMLAnchorElement | null;
-        if (!t) return;
-        const href = t.getAttribute('href');
-        if (!href || href.startsWith('http') || href.startsWith('#') || e.metaKey || e.ctrlKey || e.button === 2) return;
-        e.preventDefault();
-        e.stopPropagation();
-        const r = document.documentElement;
-        r.style.setProperty('--ax', e.clientX + 'px');
-        r.style.setProperty('--ay', e.clientY + 'px');
-        // boost thornfield warp if present
-        (window as any).__warpBoost?.();
-        navigate(href);
-      }, true);
+      // Singleton: SPA swaps re-run this script, but window persists — register exactly once
+      // or handlers stack and every click fires N navigations.
+      if (!(window as any).__absorbInit) {
+        (window as any).__absorbInit = true;
+        // capture + stopPropagation keeps the router out — exactly one history entry.
+        document.addEventListener('click', (e) => {
+          const t = (e.target as HTMLElement).closest('a[data-absorb]') as HTMLAnchorElement | null;
+          if (!t) return;
+          const href = t.getAttribute('href');
+          if (!href || href.startsWith('http') || href.startsWith('#') || e.metaKey || e.ctrlKey || e.button === 2) return;
+          e.preventDefault();
+          e.stopPropagation();
+          const r = document.documentElement;
+          r.style.setProperty('--ax', e.clientX + 'px');
+          r.style.setProperty('--ay', e.clientY + 'px');
+          // boost thornfield warp if present
+          (window as any).__warpBoost?.();
+          navigate(href);
+        }, true);
 
-      // back/forward restores can freeze mid-transition state — make sure no mask sticks.
-      addEventListener('pageshow', () => {
-        document.documentElement.style.removeProperty('--ax');
-        document.documentElement.style.removeProperty('--ay');
-      });
+        // back/forward restores can freeze mid-transition state — make sure no mask sticks.
+        addEventListener('pageshow', () => {
+          document.documentElement.style.removeProperty('--ax');
+          document.documentElement.style.removeProperty('--ay');
+        });
+      }
 
-      // custom cursor
-      const dot = document.getElementById('cdot');
-      const ring = document.getElementById('cring');
-      if (dot && ring && matchMedia('(pointer:fine)').matches) {
-        let mx = -100, my = -100, rx = -100, ry = -100;
-        addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; });
-        (function loop() {
-          rx += (mx - rx) * 0.16; ry += (my - ry) * 0.16;
-          dot.style.left = mx + 'px'; dot.style.top = my + 'px';
-          ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-          requestAnimationFrame(loop);
-        })();
+      // custom cursor — singleton. SPA swaps replace #cdot/#cring, so elements are
+      // looked up every frame; one loop + one listener survive all navigations.
+      if (!(window as any).__cursorInit) {
+        (window as any).__cursorInit = true;
+        let mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my;
+        let seen = false, gen = 0;
+        const fine = () => matchMedia('(pointer:fine)').matches;
+        document.addEventListener('mousemove', (e) => {
+          mx = e.clientX; my = e.clientY; seen = true;
+        });
+        document.addEventListener('mouseleave', () => { seen = false; });
+        function kickCursor() {
+          gen++;
+          const g = gen;
+          requestAnimationFrame(function loop() {
+            if (g !== gen) return; // superseded (e.g. bfcache restore re-kick)
+            const dot = document.getElementById('cdot');
+            const ring = document.getElementById('cring');
+            const show = seen && fine() && !!dot && !!ring;
+            if (dot) {
+              dot.style.opacity = show ? '' : '0';
+              if (show) { dot.style.left = mx + 'px'; dot.style.top = my + 'px'; }
+            }
+            if (ring) {
+              ring.style.opacity = show ? '' : '0';
+              if (show) {
+                rx += (mx - rx) * 0.16; ry += (my - ry) * 0.16;
+                ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+              }
+            }
+            requestAnimationFrame(loop);
+          });
+        }
+        kickCursor();
+        addEventListener('pageshow', kickCursor);
+        document.addEventListener('astro:page-load', kickCursor);
       }
 
       // headline scramble on load
@@ -128,97 +157,106 @@ const path = Astro.url.pathname;
     <script>
       // generative dark ambient: detuned low drone + slow heartbeat drums.
       // default off (autoplay is blocked + surprise sound is rude); toggle persists.
-      const sBtn = document.getElementById('sound-toggle');
-      const SKEY = 'cal-sound';
-      let actx = null, master = null, beatTimer = null, extraTO = null;
-      let sounding = false;
+      // Singleton + delegated clicks: SPA swaps replace the button, so the handler
+      // lives on document and the engine outlives navigations (music never restarts).
+      if (!(window as any).__soundInit) {
+        (window as any).__soundInit = true;
+        const SKEY = 'cal-sound';
+        let actx = null, master = null, beatTimer = null, extraTO = null;
+        let sounding = false;
 
-      function buildEngine() {
-        actx = new (window.AudioContext || (window as any).webkitAudioContext)();
-        master = actx.createGain();
-        master.gain.value = 0;
-        master.connect(actx.destination);
+        function buildEngine() {
+          actx = new (window.AudioContext || (window as any).webkitAudioContext)();
+          master = actx.createGain();
+          master.gain.value = 0;
+          master.connect(actx.destination);
 
-        // drone bed
-        const lp = actx.createBiquadFilter();
-        lp.type = 'lowpass'; lp.frequency.value = 200; lp.Q.value = 0.8;
-        lp.connect(master);
-        const lfo = actx.createOscillator(); lfo.frequency.value = 0.07;
-        const lfoAmt = actx.createGain(); lfoAmt.gain.value = 60;
-        lfo.connect(lfoAmt); lfoAmt.connect(lp.frequency); lfo.start();
-        [[55, 'sine', 0.05], [55.7, 'sine', 0.05], [110.3, 'triangle', 0.018]].forEach(([f, ty, g]) => {
-          const o = actx.createOscillator() as OscillatorNode;
-          o.type = ty as OscillatorType; o.frequency.value = f as number;
-          const og = actx.createGain(); og.gain.value = g as number;
-          o.connect(og); og.connect(lp); o.start();
+          // drone bed
+          const lp = actx.createBiquadFilter();
+          lp.type = 'lowpass'; lp.frequency.value = 200; lp.Q.value = 0.8;
+          lp.connect(master);
+          const lfo = actx.createOscillator(); lfo.frequency.value = 0.07;
+          const lfoAmt = actx.createGain(); lfoAmt.gain.value = 60;
+          lfo.connect(lfoAmt); lfoAmt.connect(lp.frequency); lfo.start();
+          [[55, 'sine', 0.05], [55.7, 'sine', 0.05], [110.3, 'triangle', 0.018]].forEach(([f, ty, g]) => {
+            const o = actx.createOscillator() as OscillatorNode;
+            o.type = ty as OscillatorType; o.frequency.value = f as number;
+            const og = actx.createGain(); og.gain.value = g as number;
+            o.connect(og); og.connect(lp); o.start();
+          });
+
+          // faint noise wash
+          const len = actx.sampleRate * 2;
+          const buf = actx.createBuffer(1, len, actx.sampleRate);
+          const d = buf.getChannelData(0);
+          for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+          const wash = actx.createBufferSource(); wash.buffer = buf; wash.loop = true;
+          const wf = actx.createBiquadFilter(); wf.type = 'lowpass'; wf.frequency.value = 240;
+          const wg = actx.createGain(); wg.gain.value = 0.014;
+          wash.connect(wf); wf.connect(wg); wg.connect(master); wash.start();
+        }
+
+        function thump() {
+          if (!actx || !master) return;
+          const t = actx.currentTime;
+          const o = actx.createOscillator(); o.type = 'sine';
+          o.frequency.setValueAtTime(62, t);
+          o.frequency.exponentialRampToValueAtTime(36, t + 0.28);
+          const g = actx.createGain();
+          g.gain.setValueAtTime(0.5, t);
+          g.gain.exponentialRampToValueAtTime(0.001, t + 0.42);
+          o.connect(g); g.connect(master);
+          o.start(t); o.stop(t + 0.5);
+        }
+
+        function startSound() {
+          if (!actx) buildEngine();
+          actx!.resume();
+          master!.gain.setTargetAtTime(0.14, actx!.currentTime, 1.2);
+          if (beatTimer) clearInterval(beatTimer);
+          let n = 0;
+          thump();
+          beatTimer = window.setInterval(() => {
+            thump();
+            n++;
+            if (n % 4 === 3) extraTO = window.setTimeout(thump, 290); // heartbeat double-hit
+          }, 1150);
+          sounding = true;
+        }
+
+        function stopSound() {
+          if (actx && master) master.gain.setTargetAtTime(0, actx.currentTime, 0.25);
+          if (beatTimer) { clearInterval(beatTimer); beatTimer = null; }
+          if (extraTO) { clearTimeout(extraTO); extraTO = null; }
+          sounding = false;
+        }
+
+        function paintBtn() {
+          const b = document.getElementById('sound-toggle');
+          if (!b) return;
+          b.textContent = sounding ? 'sound — on' : 'sound — off';
+          b.setAttribute('aria-pressed', String(sounding));
+        }
+
+        document.addEventListener('click', (e) => {
+          if (!(e.target as HTMLElement).closest('#sound-toggle')) return;
+          if (sounding) { stopSound(); try { localStorage.setItem(SKEY, 'off'); } catch {} }
+          else { startSound(); try { localStorage.setItem(SKEY, 'on'); } catch {} }
+          paintBtn();
         });
 
-        // faint noise wash
-        const len = actx.sampleRate * 2;
-        const buf = actx.createBuffer(1, len, actx.sampleRate);
-        const d = buf.getChannelData(0);
-        for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
-        const wash = actx.createBufferSource(); wash.buffer = buf; wash.loop = true;
-        const wf = actx.createBiquadFilter(); wf.type = 'lowpass'; wf.frequency.value = 240;
-        const wg = actx.createGain(); wg.gain.value = 0.014;
-        wash.connect(wf); wf.connect(wg); wg.connect(master); wash.start();
+        document.addEventListener('astro:page-load', paintBtn);
+
+        // full page loads kill audio; if they left it on, resume on first gesture
+        try {
+          if (localStorage.getItem(SKEY) === 'on') {
+            sounding = true; paintBtn();
+            const arm = () => { if (sounding && !actx) startSound(); };
+            addEventListener('pointerdown', arm, { once: true });
+            addEventListener('keydown', arm, { once: true });
+          }
+        } catch {}
       }
-
-      function thump() {
-        if (!actx || !master) return;
-        const t = actx.currentTime;
-        const o = actx.createOscillator(); o.type = 'sine';
-        o.frequency.setValueAtTime(62, t);
-        o.frequency.exponentialRampToValueAtTime(36, t + 0.28);
-        const g = actx.createGain();
-        g.gain.setValueAtTime(0.5, t);
-        g.gain.exponentialRampToValueAtTime(0.001, t + 0.42);
-        o.connect(g); g.connect(master);
-        o.start(t); o.stop(t + 0.5);
-      }
-
-      function startSound() {
-        if (!actx) buildEngine();
-        actx!.resume();
-        master!.gain.setTargetAtTime(0.14, actx!.currentTime, 1.2);
-        let n = 0;
-        thump();
-        beatTimer = window.setInterval(() => {
-          thump();
-          n++;
-          if (n % 4 === 3) extraTO = window.setTimeout(thump, 290); // heartbeat double-hit
-        }, 1150);
-        sounding = true;
-      }
-
-      function stopSound() {
-        if (actx && master) master.gain.setTargetAtTime(0, actx.currentTime, 0.25);
-        if (beatTimer) { clearInterval(beatTimer); beatTimer = null; }
-        if (extraTO) { clearTimeout(extraTO); extraTO = null; }
-        sounding = false;
-      }
-
-      function paintBtn() {
-        if (!sBtn) return;
-        sBtn.textContent = sounding ? 'sound — on' : 'sound — off';
-        sBtn.setAttribute('aria-pressed', String(sounding));
-      }
-
-      sBtn?.addEventListener('click', () => {
-        if (sounding) { stopSound(); try { localStorage.setItem(SKEY, 'off'); } catch {} }
-        else { startSound(); try { localStorage.setItem(SKEY, 'on'); } catch {} }
-        paintBtn();
-      });
-
-      // full page loads kill audio; if they left it on, resume on first gesture
-      try {
-        if (localStorage.getItem(SKEY) === 'on') {
-          sounding = true; paintBtn();
-          const arm = () => { if (sounding && !actx) startSound(); };
-          addEventListener('pointerdown', arm, { once: true });
-          addEventListener('keydown', arm, { once: true });
-        }
-      } catch {}
     </script>
   </body>
 </html>

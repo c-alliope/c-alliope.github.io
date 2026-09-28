@@ -31,6 +31,7 @@ const path = Astro.url.pathname;
     <div id="absorb" aria-hidden="true"></div>
     <div class="cursor-dot no-print hidden md:block" id="cdot" aria-hidden="true"></div>
     <div class="cursor-ring no-print hidden md:block" id="cring" aria-hidden="true"></div>
+    <button id="sound-toggle" aria-pressed="false" class="hud-label no-print fixed bottom-4 right-4 z-[60] border border-bone/25 bg-void/80 px-3 py-2 backdrop-blur-md hover:border-blood hover:text-blood transition-colors">sound — off</button>
 
     <!-- HUD top bar -->
     <header class="no-print fixed top-0 left-0 right-0 z-50 border-b border-bone/10 bg-void/80 backdrop-blur-md">
@@ -119,6 +120,102 @@ const path = Astro.url.pathname;
           if (frame >= total) { el.textContent = orig; clearInterval(timer); }
         }, 30);
       });
+    </script>
+
+    <script>
+      // generative dark ambient: detuned low drone + slow heartbeat drums.
+      // default off (autoplay is blocked + surprise sound is rude); toggle persists.
+      const sBtn = document.getElementById('sound-toggle');
+      const SKEY = 'cal-sound';
+      let actx = null, master = null, beatTimer = null, extraTO = null;
+      let sounding = false;
+
+      function buildEngine() {
+        actx = new (window.AudioContext || (window as any).webkitAudioContext)();
+        master = actx.createGain();
+        master.gain.value = 0;
+        master.connect(actx.destination);
+
+        // drone bed
+        const lp = actx.createBiquadFilter();
+        lp.type = 'lowpass'; lp.frequency.value = 200; lp.Q.value = 0.8;
+        lp.connect(master);
+        const lfo = actx.createOscillator(); lfo.frequency.value = 0.07;
+        const lfoAmt = actx.createGain(); lfoAmt.gain.value = 60;
+        lfo.connect(lfoAmt); lfoAmt.connect(lp.frequency); lfo.start();
+        [[55, 'sine', 0.05], [55.7, 'sine', 0.05], [110.3, 'triangle', 0.018]].forEach(([f, ty, g]) => {
+          const o = actx.createOscillator() as OscillatorNode;
+          o.type = ty as OscillatorType; o.frequency.value = f as number;
+          const og = actx.createGain(); og.gain.value = g as number;
+          o.connect(og); og.connect(lp); o.start();
+        });
+
+        // faint noise wash
+        const len = actx.sampleRate * 2;
+        const buf = actx.createBuffer(1, len, actx.sampleRate);
+        const d = buf.getChannelData(0);
+        for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+        const wash = actx.createBufferSource(); wash.buffer = buf; wash.loop = true;
+        const wf = actx.createBiquadFilter(); wf.type = 'lowpass'; wf.frequency.value = 240;
+        const wg = actx.createGain(); wg.gain.value = 0.014;
+        wash.connect(wf); wf.connect(wg); wg.connect(master); wash.start();
+      }
+
+      function thump() {
+        if (!actx || !master) return;
+        const t = actx.currentTime;
+        const o = actx.createOscillator(); o.type = 'sine';
+        o.frequency.setValueAtTime(62, t);
+        o.frequency.exponentialRampToValueAtTime(36, t + 0.28);
+        const g = actx.createGain();
+        g.gain.setValueAtTime(0.5, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.42);
+        o.connect(g); g.connect(master);
+        o.start(t); o.stop(t + 0.5);
+      }
+
+      function startSound() {
+        if (!actx) buildEngine();
+        actx!.resume();
+        master!.gain.setTargetAtTime(0.14, actx!.currentTime, 1.2);
+        let n = 0;
+        thump();
+        beatTimer = window.setInterval(() => {
+          thump();
+          n++;
+          if (n % 4 === 3) extraTO = window.setTimeout(thump, 290); // heartbeat double-hit
+        }, 1150);
+        sounding = true;
+      }
+
+      function stopSound() {
+        if (actx && master) master.gain.setTargetAtTime(0, actx.currentTime, 0.25);
+        if (beatTimer) { clearInterval(beatTimer); beatTimer = null; }
+        if (extraTO) { clearTimeout(extraTO); extraTO = null; }
+        sounding = false;
+      }
+
+      function paintBtn() {
+        if (!sBtn) return;
+        sBtn.textContent = sounding ? 'sound — on' : 'sound — off';
+        sBtn.setAttribute('aria-pressed', String(sounding));
+      }
+
+      sBtn?.addEventListener('click', () => {
+        if (sounding) { stopSound(); try { localStorage.setItem(SKEY, 'off'); } catch {} }
+        else { startSound(); try { localStorage.setItem(SKEY, 'on'); } catch {} }
+        paintBtn();
+      });
+
+      // full page loads kill audio; if they left it on, resume on first gesture
+      try {
+        if (localStorage.getItem(SKEY) === 'on') {
+          sounding = true; paintBtn();
+          const arm = () => { if (sounding && !actx) startSound(); };
+          addEventListener('pointerdown', arm, { once: true });
+          addEventListener('keydown', arm, { once: true });
+        }
+      } catch {}
     </script>
   </body>
 </html>

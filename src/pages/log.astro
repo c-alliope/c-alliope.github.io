@@ -16,7 +16,7 @@ const posts = (await getCollection('blog')).sort((a, b) => +b.data.date - +a.dat
     <div class="rule my-8"></div>
     <div class="space-y-4">
       {posts.map((p) => (
-        <a href={`/blog/${p.slug}`} data-absorb class="poster-card block bg-coal p-6 group">
+        <a href={`/log/${p.slug}`} data-absorb class="poster-card block bg-coal p-6 group">
           <div class="flex justify-between">
             <span class="hud-label text-blood">{p.data.tag}</span>
             <span class="hud-label">{p.data.date.toISOString().slice(0, 10)}</span>

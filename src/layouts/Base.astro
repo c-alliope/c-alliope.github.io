@@ -41,7 +41,7 @@ const path = Astro.url.pathname;
         <nav class="flex items-center gap-4 md:gap-8">
           <a href="/resume" data-absorb class={`hud-label hover:text-bone transition-colors ${path.startsWith('/resume') ? 'text-bone' : ''}`}>resume</a>
           <a href="/projects" data-absorb class={`hud-label hover:text-bone transition-colors ${path.startsWith('/projects') ? 'text-bone' : ''}`}>works</a>
-          <a href="/blog" data-absorb class={`hud-label hover:text-bone transition-colors ${path.startsWith('/blog') ? 'text-bone' : ''}`}>log</a>
+          <a href="/log" data-absorb class={`hud-label hover:text-bone transition-colors ${path.startsWith('/log') ? 'text-bone' : ''}`}>log</a>
         </nav>
       </div>
     </header>
@@ -58,7 +58,7 @@ const path = Astro.url.pathname;
         </div>
         <div class="flex gap-6 items-end">
           <a href="https://github.com/c-alliope" class="hud-label hover:text-blood" target="_blank" rel="noreferrer">github ↗</a>
-          <a href="/blog" data-absorb class="hud-label hover:text-blood">log</a>
+          <a href="/log" data-absorb class="hud-label hover:text-blood">log</a>
           <a href="/resume" data-absorb class="hud-label hover:text-blood">resume</a>
         </div>
       </div>
@@ -67,13 +67,16 @@ const path = Astro.url.pathname;
     </footer>
 
     <script>
-      // absorb / branch transition: red circle expands from click point, then navigates
+      // absorb / branch transition: red circle expands from click point, then navigates.
+      // capture + stopPropagation beats ClientRouter to the click, so the router
+      // never SPA-navigates underneath us — exactly one history entry per click.
       document.addEventListener('click', (e) => {
         const t = (e.target as HTMLElement).closest('a[data-absorb]') as HTMLAnchorElement | null;
         if (!t) return;
         const href = t.getAttribute('href');
-        if (!href || href.startsWith('http') || href.startsWith('#') || e.metaKey || e.ctrlKey) return;
+        if (!href || href.startsWith('http') || href.startsWith('#') || e.metaKey || e.ctrlKey || e.button === 2) return;
         e.preventDefault();
+        e.stopPropagation();
         const overlay = document.getElementById('absorb');
         if (!overlay) { window.location.href = href; return; }
         overlay.style.setProperty('--ax', e.clientX + 'px');
@@ -82,7 +85,7 @@ const path = Astro.url.pathname;
         // boost thornfield warp if present
         (window as any).__warpBoost?.();
         setTimeout(() => { window.location.href = href; }, 550);
-      });
+      }, true);
 
       // custom cursor
       const dot = document.getElementById('cdot');

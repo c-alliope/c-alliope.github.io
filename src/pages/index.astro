@@ -148,6 +148,29 @@ const draftCount = projects.filter((p) => p.tag === 'DRAFT').length;
             <div class="crt absolute inset-0"></div>
           </a>
 
+          <!-- panel E (low right) → showcase -->
+          <a href="/showcase" data-absorb class="float-rect group absolute bottom-[1%] right-[5%] h-[30%] w-[24%] overflow-hidden rounded-[2px] border border-bone/20 hover:border-blood transition-colors" style="--fd:9s; rotate:1.5deg" aria-label="showcase">
+            <span class="absolute left-3 top-2.5 z-10 font-grot text-sm font-bold lowercase tracking-tight text-bone transition-colors group-hover:text-blood" style="text-shadow:0 1px 10px rgba(0,0,0,.85)">showcase</span>
+            <span class="hud-label absolute right-3 top-3 z-10 !text-bone/50">04</span>
+            <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" class="absolute inset-0 h-full w-full">
+              <defs>
+                <linearGradient id="rgE" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#232329"/><stop offset="0.5" stop-color="#5c0f1e"/><stop offset="1" stop-color="#c8102e"/>
+                </linearGradient>
+                <filter id="rgfE" x="0%" y="0%" width="100%" height="100%">
+                  <feTurbulence type="fractalNoise" baseFrequency="0.011 0.1" numOctaves="4" seed="61" stitchTiles="stitch" result="n"/>
+                  <feColorMatrix in="n" type="saturate" values="0" result="g"/>
+                  <feComponentTransfer result="b">
+                    <feFuncR type="discrete" tableValues="0 0.3 0.55 0.8 1"/><feFuncG type="discrete" tableValues="0 0.3 0.55 0.8 1"/><feFuncB type="discrete" tableValues="0 0.3 0.55 0.8 1"/>
+                  </feComponentTransfer>
+                </filter>
+              </defs>
+              <rect width="400" height="200" fill="url(#rgE)"/>
+              <rect width="400" height="200" filter="url(#rgfE)" opacity="0.5" style="mix-blend-mode:overlay"/>
+            </svg>
+            <div class="crt absolute inset-0"></div>
+          </a>
+
           <!-- word -->
           <h1 class="pointer-events-none absolute inset-x-0 top-1/2 z-20 -translate-y-1/2 text-center font-grot text-[16vw] font-bold lowercase leading-none tracking-tight text-bone md:text-[8.5rem]" style="text-shadow: 0 2px 18px rgba(0,0,0,0.75), 0 0 44px rgba(200,16,46,0.35);">calliope</h1>
         </div>
@@ -155,24 +178,12 @@ const draftCount = projects.filter((p) => p.tag === 'DRAFT').length;
         <!-- dossier -->
         <dl class="mt-10 grid grid-cols-2 md:grid-cols-4 border-t border-l border-bone/15">
           <div class="border-b border-r border-bone/15 px-4 py-3">
-            <dt class="hud-label">focus</dt>
-            <dd class="mt-1 text-sm text-bone">ux/ui + design</dd>
-          </div>
-          <div class="border-b border-r border-bone/15 px-4 py-3">
             <dt class="hud-label">stack</dt>
             <dd class="mt-1 text-sm text-bone">astro · static</dd>
           </div>
           <div class="border-b border-r border-bone/15 px-4 py-3">
-            <dt class="hud-label">base</dt>
-            <dd class="mt-1 text-sm text-bone">github pages</dd>
-          </div>
-          <div class="border-b border-r border-bone/15 px-4 py-3">
             <dt class="hud-label">status</dt>
             <dd class="mt-1 text-sm text-blood">in progress</dd>
-          </div>
-          <div class="border-b border-r border-bone/15 px-4 py-3">
-            <dt class="hud-label">sections</dt>
-            <dd class="mt-1 text-sm text-bone">three doors — resume · works · log</dd>
           </div>
           <div class="border-b border-r border-bone/15 px-4 py-3">
             <dt class="hud-label">works</dt>
@@ -181,10 +192,6 @@ const draftCount = projects.filter((p) => p.tag === 'DRAFT').length;
           <div class="border-b border-r border-bone/15 px-4 py-3">
             <dt class="hud-label">posts</dt>
             <dd class="mt-1 text-sm text-bone">{posts.length} in log</dd>
-          </div>
-          <div class="border-b border-r border-bone/15 px-4 py-3">
-            <dt class="hud-label">source</dt>
-            <dd class="mt-1 text-sm text-bone">1 repo</dd>
           </div>
         </dl>
 

@@ -9,24 +9,9 @@ import Base from '../layouts/Base.astro';
     <!-- HERO with mouse parallax layers -->
     <div id="show-hero" class="relative mt-4 overflow-hidden rounded-[2px] border border-bone/20 min-h-[380px] md:min-h-[460px] flex items-end">
       <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_120%,rgba(200,16,46,0.35),transparent_65%)]" aria-hidden="true"></div>
-      <div data-depth="26" class="absolute inset-x-[-6%] top-[8%] bottom-[8%] opacity-70" aria-hidden="true">
-        <svg viewBox="0 0 640 300" preserveAspectRatio="xMidYMid slice" class="h-full w-full">
-          <g stroke="#8a8a93" stroke-width="1" opacity="0.5" fill="none">
-            <path d="M0,250 L120,180 L220,220 L340,140 L460,190 L560,120 L640,160" />
-            <path d="M0,270 L140,210 L260,250 L400,180 L520,220 L640,190" />
-            <path d="M60,300 L180,230 L300,270 L470,200 L600,240" />
-          </g>
-          <g fill="#141419">
-            <rect x="120" y="120" width="46" height="130" /><rect x="300" y="70" width="60" height="180" />
-            <rect x="470" y="140" width="52" height="110" /><rect x="540" y="90" width="34" height="160" />
-          </g>
-          <g fill="#e8e0d0" opacity="0.75">
-            <rect x="126" y="130" width="6" height="8" /><rect x="138" y="130" width="6" height="8" /><rect x="150" y="142" width="6" height="8" />
-            <rect x="308" y="82" width="7" height="9" /><rect x="322" y="82" width="7" height="9" /><rect x="336" y="96" width="7" height="9" />
-            <rect x="478" y="150" width="6" height="8" /><rect x="546" y="100" width="6" height="8" />
-          </g>
-          <rect x="330" y="60" width="4" height="10" fill="#c8102e" />
-        </svg>
+      <div data-depth="26" class="absolute inset-x-[-6%] top-[8%] bottom-[8%] opacity-80" aria-hidden="true">
+        <img src="/showcase/port.png" alt="" class="h-full w-full object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-t from-void via-void/35 to-transparent" aria-hidden="true"></div>
       </div>
       <div data-depth="12" class="absolute inset-0 techlines opacity-40" aria-hidden="true"></div>
       <div data-depth="6" class="relative z-10 p-6 md:p-10 w-full">

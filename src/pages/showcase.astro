@@ -245,7 +245,8 @@ import Base from '../layouts/Base.astro';
       (window as any).__showcaseInit = true;
       const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      // smooth scroll, only while on this page (SPA swaps keep window alive)
+      // smooth scroll. singleton rAF lives on window, so it survives SPA swaps
+      // and must NEVER be stopped on page leave (that freezes scroll everywhere).
       let lenis: any = null;
       if (!reduced) {
         lenis = new Lenis({ lerp: 0.09, smoothWheel: true });
@@ -254,14 +255,7 @@ import Base from '../layouts/Base.astro';
           requestAnimationFrame(raf);
         })(0);
       }
-      const onShowcase = () => location.pathname.replace(/\/$/, '') === '/showcase';
-      const syncPage = () => {
-        if (!lenis) return;
-        if (onShowcase()) lenis.start();
-        else lenis.stop();
-      };
-      document.addEventListener('astro:page-load', () => { syncPage(); sweepRv(); });
-      syncPage();
+      document.addEventListener('astro:page-load', () => { sweepRv(); });
 
       // reveal on scroll
       const io = new IntersectionObserver((entries) => {

@@ -20,13 +20,13 @@
     "tone": "bone"
   },
   {
-    "slug": "sigil",
-    "title": "sigil",
-    "tag": "SYSTEM",
+    "slug": "example-root",
+    "title": "THIRD SLOT",
+    "tag": "DRAFT",
     "year": "2026",
-    "blurb": "Cyber-sigilism UI kit — cold, technical components with smooth scroll, playgrounds and zoom specimens.",
-    "stack": ["astro", "lenis"],
-    "link": "https://c-alliope.github.io/sigil/",
+    "blurb": "Third placeholder. Keep blurbs to 1–2 lines, poster-style.",
+    "stack": ["tbd"],
+    "link": "#",
     "tone": "black"
   }
 ]

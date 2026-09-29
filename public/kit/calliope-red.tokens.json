@@ -1,0 +1,34 @@
+{
+  "$meta": {
+    "name": "calliope red v1",
+    "note": "Import into Figma via Tokens Studio (W3C design tokens format). Signal red is for accents only."
+  },
+  "color": {
+    "void": { "value": "#060607", "type": "color", "description": "page background" },
+    "coal": { "value": "#0e0e12", "type": "color", "description": "cards and panels" },
+    "panel": { "value": "#121218", "type": "color" },
+    "smoke": { "value": "#1c1c22", "type": "color", "description": "chips, tracks" },
+    "blood": { "value": "#c8102e", "type": "color", "description": "signal only" },
+    "blood-hot": { "value": "#a50d27", "type": "color", "description": "hover" },
+    "blood-deep": { "value": "#7a0a1e", "type": "color" },
+    "bone": { "value": "#e8e0d0", "type": "color", "description": "primary text" },
+    "ash": { "value": "#8a8a93", "type": "color", "description": "secondary text" }
+  },
+  "font": {
+    "grot": { "value": "Space Grotesk", "type": "fontFamily", "description": "titles, bold, lowercase" },
+    "mono": { "value": "JetBrains Mono", "type": "fontFamily", "description": "hud labels" }
+  },
+  "radius": {
+    "kit": { "value": "2px", "type": "borderRadius", "description": "everything" }
+  },
+  "shadow": {
+    "bloom": {
+      "value": "0 0 70px -18px rgba(200,16,46,0.5)",
+      "type": "boxShadow"
+    },
+    "deep": {
+      "value": "0 24px 60px -18px rgba(0,0,0,0.85), 0 0 50px -20px rgba(200,16,46,0.4)",
+      "type": "boxShadow"
+    }
+  }
+}

@@ -1,0 +1,116 @@
+/* ============================================================
+   CALLIOPE RED v1 — portable kit
+   Drop this file into any project. No build step, no deps.
+   Pair with Figma: import calliope-red.tokens.json into Tokens Studio.
+   ============================================================ */
+
+:root {
+  --cr-void: #060607;
+  --cr-coal: #0e0e12;
+  --cr-panel: #121218;
+  --cr-smoke: #1c1c22;
+  --cr-blood: #c8102e;
+  --cr-blood-hot: #a50d27;
+  --cr-blood-deep: #7a0a1e;
+  --cr-bone: #e8e0d0;
+  --cr-ash: #8a8a93;
+  --cr-font-grot: "Space Grotesk", system-ui, sans-serif;
+  --cr-font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --cr-radius: 2px;
+  --cr-bloom: 0 0 70px -18px rgba(200, 16, 46, 0.5);
+  --cr-deep: 0 24px 60px -18px rgba(0, 0, 0, 0.85), 0 0 50px -20px rgba(200, 16, 46, 0.4);
+}
+
+.cr-title {
+  font-family: var(--cr-font-grot);
+  font-weight: 700;
+  text-transform: lowercase;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--cr-bone);
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.75), 0 0 44px rgba(200, 16, 46, 0.35);
+}
+.cr-title .dot { color: var(--cr-blood); }
+
+.cr-hud {
+  font-family: var(--cr-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--cr-ash);
+}
+
+.cr-btn {
+  display: inline-block;
+  font-family: var(--cr-font-grot);
+  font-weight: 700;
+  border-radius: var(--cr-radius);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.1s;
+}
+.cr-btn:active { transform: translateY(1px); }
+.cr-btn-solid { background: var(--cr-blood); color: #fff; }
+.cr-btn-solid:hover { background: var(--cr-blood-hot); }
+.cr-btn-outline { background: transparent; color: var(--cr-bone); border: 1px solid rgba(232, 224, 208, 0.25); }
+.cr-btn-outline:hover { border-color: var(--cr-blood); color: var(--cr-blood); }
+.cr-btn-ghost { background: transparent; color: rgba(232, 224, 208, 0.7); }
+.cr-btn-ghost:hover { background: var(--cr-smoke); color: var(--cr-bone); }
+.cr-btn-mono {
+  font-family: var(--cr-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--cr-blood);
+  border: 1px solid rgba(200, 16, 46, 0.6);
+}
+.cr-btn-mono:hover { background: var(--cr-blood); color: #fff; }
+.cr-btn[disabled] { background: var(--cr-smoke); color: rgba(232, 224, 208, 0.4); cursor: not-allowed; }
+.cr-sm { padding: 6px 12px; font-size: 12px; }
+.cr-md { padding: 12px 24px; font-size: 14px; }
+.cr-lg { padding: 16px 32px; font-size: 16px; }
+
+.cr-input, .cr-area {
+  width: 100%;
+  background: var(--cr-coal);
+  border: 1px solid rgba(232, 224, 208, 0.2);
+  border-radius: var(--cr-radius);
+  padding: 12px 16px;
+  font-size: 14px;
+  color: var(--cr-bone);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.cr-input::placeholder, .cr-area::placeholder { color: rgba(232, 224, 208, 0.3); }
+.cr-input:focus, .cr-area:focus { border-color: var(--cr-blood); }
+
+.cr-chip {
+  display: inline-block;
+  font-family: var(--cr-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  border: 1px solid rgba(232, 224, 208, 0.2);
+  background: var(--cr-smoke);
+  border-radius: var(--cr-radius);
+  padding: 6px 12px;
+  color: var(--cr-ash);
+}
+.cr-chip-red { border-color: rgba(200, 16, 46, 0.6); color: var(--cr-blood); background: transparent; }
+
+.cr-panel {
+  background: var(--cr-coal);
+  border: 1px solid rgba(232, 224, 208, 0.15);
+  border-radius: var(--cr-radius);
+}
+.cr-notice {
+  border: 1px solid rgba(232, 224, 208, 0.15);
+  border-left: 2px solid var(--cr-blood);
+  background: var(--cr-coal);
+  border-radius: var(--cr-radius);
+  padding: 16px 20px;
+}
+
+.cr-scanlines {
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.3) 0 1px, transparent 1px 3px);
+}

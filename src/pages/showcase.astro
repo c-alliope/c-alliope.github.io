@@ -1,0 +1,508 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="cal.dev / showcase">
+  <section class="mx-auto max-w-5xl px-4 md:px-8 pt-28 pb-10">
+    <p class="hud-label">06 / field test</p>
+
+    <!-- HERO with mouse parallax layers -->
+    <div id="show-hero" class="relative mt-4 overflow-hidden rounded-[2px] border border-bone/20 min-h-[380px] md:min-h-[460px] flex items-end">
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_120%,rgba(200,16,46,0.35),transparent_65%)]" aria-hidden="true"></div>
+      <div data-depth="26" class="absolute inset-x-[-6%] top-[8%] bottom-[8%] opacity-70" aria-hidden="true">
+        <svg viewBox="0 0 640 300" preserveAspectRatio="xMidYMid slice" class="h-full w-full">
+          <g stroke="#8a8a93" stroke-width="1" opacity="0.5" fill="none">
+            <path d="M0,250 L120,180 L220,220 L340,140 L460,190 L560,120 L640,160" />
+            <path d="M0,270 L140,210 L260,250 L400,180 L520,220 L640,190" />
+            <path d="M60,300 L180,230 L300,270 L470,200 L600,240" />
+          </g>
+          <g fill="#141419">
+            <rect x="120" y="120" width="46" height="130" /><rect x="300" y="70" width="60" height="180" />
+            <rect x="470" y="140" width="52" height="110" /><rect x="540" y="90" width="34" height="160" />
+          </g>
+          <g fill="#e8e0d0" opacity="0.75">
+            <rect x="126" y="130" width="6" height="8" /><rect x="138" y="130" width="6" height="8" /><rect x="150" y="142" width="6" height="8" />
+            <rect x="308" y="82" width="7" height="9" /><rect x="322" y="82" width="7" height="9" /><rect x="336" y="96" width="7" height="9" />
+            <rect x="478" y="150" width="6" height="8" /><rect x="546" y="100" width="6" height="8" />
+          </g>
+          <rect x="330" y="60" width="4" height="10" fill="#c8102e" />
+        </svg>
+      </div>
+      <div data-depth="12" class="absolute inset-0 techlines opacity-40" aria-hidden="true"></div>
+      <div data-depth="6" class="relative z-10 p-6 md:p-10 w-full">
+        <div class="relative inline-block">
+          <div class="absolute left-[6%] top-1/2 h-[60%] w-[70%] -translate-y-1/2 rounded-full bg-blood/30 blur-[70px]" aria-hidden="true"></div>
+          <h1 class="relative font-grot font-bold lowercase leading-none tracking-tight text-bone text-[17vw] md:text-[7rem]" style="text-shadow: 0 2px 18px rgba(0,0,0,0.75), 0 0 44px rgba(200,16,46,0.35);">showcase<span class="text-blood">.</span></h1>
+        </div>
+        <p class="mt-3 max-w-md text-sm text-bone/70">calliope red at work in the streets. every panel below is clickable, tunable, alive.</p>
+      </div>
+    </div>
+
+    <!-- 01 CHAT TERMINAL -->
+    <article class="rv mt-14">
+      <p class="hud-label text-blood">01 // chat terminal</p>
+      <h2 class="mt-2 font-grot text-2xl md:text-3xl font-bold lowercase tracking-tight">talk to the grid.</h2>
+      <div class="deep glass glint mt-5 rounded-[2px] border border-bone/20 overflow-hidden">
+        <div class="flex items-center gap-2 border-b border-bone/10 px-4 py-2.5">
+          <span class="h-2.5 w-2.5 rounded-full bg-blood"></span>
+          <span class="h-2.5 w-2.5 rounded-full border border-bone/30"></span>
+          <span class="h-2.5 w-2.5 rounded-full border border-bone/30"></span>
+          <span class="hud-label ml-2">grid.link // secure</span>
+          <span class="hud-label ml-auto text-blood">● live</span>
+        </div>
+        <pre id="term-log" class="h-44 overflow-y-auto px-4 py-3 font-mono2 text-xs leading-relaxed text-bone/80"></pre>
+        <form id="term-form" class="flex border-t border-bone/10">
+          <span class="px-4 py-3 font-mono2 text-xs text-blood">❯</span>
+          <input id="term-in" type="text" autocomplete="off" placeholder="type help + enter" class="w-full bg-transparent px-0 py-3 font-mono2 text-xs text-bone placeholder:text-bone/30 outline-none" />
+        </form>
+      </div>
+    </article>
+
+    <!-- 02 CHAT MESSAGES -->
+    <article class="rv mt-14">
+      <p class="hud-label text-blood">02 // chat messages</p>
+      <h2 class="mt-2 font-grot text-2xl md:text-3xl font-bold lowercase tracking-tight">ping a runner.</h2>
+      <div class="deep glass glint mt-5 rounded-[2px] border border-bone/20 overflow-hidden">
+        <div class="flex items-center gap-2 border-b border-bone/10 px-4 py-2.5">
+          <span class="hud-label ml-1">vex // courier</span>
+          <span class="hud-label ml-auto text-blood">● online</span>
+        </div>
+        <div id="chat-log" class="h-52 space-y-3 overflow-y-auto px-4 py-4">
+          <div class="max-w-[75%] rounded-[2px] rounded-tl-none bg-smoke px-3 py-2 text-sm text-bone/85">package is three blocks out. roof or lobby?</div>
+        </div>
+        <form id="chat-form" class="flex gap-2 border-t border-bone/10 p-3">
+          <input id="chat-in" type="text" autocomplete="off" placeholder="message vex…" class="w-full bg-coal border border-bone/20 rounded-[2px] px-3 py-2 text-sm text-bone placeholder:text-bone/30 outline-none focus:border-blood transition-colors" />
+          <button class="bg-blood px-4 py-2 text-sm font-bold text-white rounded-[2px] hover:bg-[#a50d27] active:translate-y-px transition">send</button>
+        </form>
+      </div>
+    </article>
+
+    <!-- 03 FLIGHT PATHS -->
+    <article class="rv mt-14">
+      <p class="hud-label text-blood">03 // flight paths</p>
+      <h2 class="mt-2 font-grot text-2xl md:text-3xl font-bold lowercase tracking-tight">pick a line.</h2>
+      <div class="deep glass glint mt-5 rounded-[2px] border border-bone/20 overflow-hidden">
+        <div class="flex items-center border-b border-bone/10 px-4 py-2.5">
+          <span class="hud-label ml-1">night routes // sector 7</span>
+        </div>
+        <svg viewBox="0 0 600 220" class="block h-auto w-full">
+          <g fill="none" stroke-width="1.5">
+            <path id="fp-a" d="M20,190 Q150,40 300,120 T580,60" stroke="#8a8a93" opacity="0.6" />
+            <path id="fp-b" d="M20,190 Q200,150 340,170 T580,130" stroke="#c8102e" />
+            <path id="fp-c" d="M20,190 Q120,190 280,90 T580,180" stroke="#8a8a93" opacity="0.6" />
+          </g>
+          <g fill="#e8e0d0">
+            <circle cx="20" cy="190" r="3" /><circle cx="580" cy="60" r="3" /><circle cx="580" cy="130" r="3" /><circle cx="580" cy="180" r="3" />
+          </g>
+          <circle r="3.5" fill="#c8102e">
+            <animateMotion dur="5s" repeatCount="indefinite"><mpath href="#fp-b" /></animateMotion>
+          </circle>
+          <circle r="2.5" fill="#e8e0d0" opacity="0.8">
+            <animateMotion dur="8s" repeatCount="indefinite"><mpath href="#fp-a" /></animateMotion>
+          </circle>
+        </svg>
+        <div id="fp-routes" class="flex flex-wrap gap-2 border-t border-bone/10 p-3">
+          <button data-route="north loop" data-t="11 min" data-a="420 m" class="hud-label border border-bone/25 px-4 py-2 hover:border-blood hover:text-blood transition-colors">north loop</button>
+          <button data-route="red line" data-t="7 min" data-a="180 m" class="hud-label border border-blood text-blood px-4 py-2">red line</button>
+          <button data-route="low drift" data-t="16 min" data-a="90 m" class="hud-label border border-bone/25 px-4 py-2 hover:border-blood hover:text-blood transition-colors">low drift</button>
+          <span class="hud-label ml-auto self-center opacity-70"><span id="fp-name" class="text-bone">red line</span> · <span id="fp-t">7 min</span> · <span id="fp-a">180 m</span></span>
+        </div>
+      </div>
+    </article>
+
+    <!-- 04 SIGNAL -->
+    <article class="rv mt-14">
+      <p class="hud-label text-blood">04 // signal screens + receivers</p>
+      <h2 class="mt-2 font-grot text-2xl md:text-3xl font-bold lowercase tracking-tight">catch the frequency.</h2>
+      <div class="deep glass glint mt-5 rounded-[2px] border border-bone/20 overflow-hidden">
+        <div class="flex items-center border-b border-bone/10 px-4 py-2.5">
+          <span class="hud-label ml-1">rx-09 // spectrum</span>
+          <span id="sig-state" class="hud-label ml-auto text-blood">○ scanning</span>
+        </div>
+        <canvas id="sig-view" width="600" height="140" class="block h-32 w-full"></canvas>
+        <div class="flex flex-wrap items-center gap-4 border-t border-bone/10 p-4">
+          <label class="hud-label flex flex-1 min-w-40 items-center gap-3" for="sig-freq">freq <input id="sig-freq" type="range" min="0" max="100" value="62" class="w-full accent-[#c8102e]" /></label>
+          <span id="sig-val" class="font-mono2 text-xs text-bone/80">88.4 mhz</span>
+          <button id="sig-lock" class="bg-blood px-5 py-2.5 text-sm font-bold text-white rounded-[2px] hover:bg-[#a50d27] active:translate-y-px transition">lock</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- 05 AI CHAT -->
+    <article class="rv mt-14">
+      <p class="hud-label text-blood">05 // ai chat window</p>
+      <h2 class="mt-2 font-grot text-2xl md:text-3xl font-bold lowercase tracking-tight">ask the oracle.</h2>
+      <div class="deep glass glint mt-5 rounded-[2px] border border-bone/20 overflow-hidden">
+        <div class="flex items-center border-b border-bone/10 px-4 py-2.5">
+          <span class="hud-label ml-1">oracle // v0</span>
+          <span class="hud-label ml-auto text-blood">● thinking-adjacent</span>
+        </div>
+        <div id="ai-log" class="h-52 space-y-3 overflow-y-auto px-4 py-4">
+          <div class="max-w-[80%] rounded-[2px] rounded-tl-none bg-smoke px-3 py-2 text-sm text-bone/85">connected. ask about routes, weather, or the noise curfew.</div>
+        </div>
+        <form id="ai-form" class="flex gap-2 border-t border-bone/10 p-3">
+          <input id="ai-in" type="text" autocomplete="off" placeholder="ask anything…" class="w-full bg-coal border border-bone/20 rounded-[2px] px-3 py-2 text-sm text-bone placeholder:text-bone/30 outline-none focus:border-blood transition-colors" />
+          <button class="bg-blood px-4 py-2 text-sm font-bold text-white rounded-[2px] hover:bg-[#a50d27] active:translate-y-px transition">ask</button>
+        </form>
+      </div>
+    </article>
+
+    <!-- 06 SETTINGS -->
+    <article class="rv mt-14">
+      <p class="hud-label text-blood">06 // settings panel</p>
+      <h2 class="mt-2 font-grot text-2xl md:text-3xl font-bold lowercase tracking-tight">tune the room.</h2>
+      <div class="mt-5 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="deep glass rounded-[2px] border border-bone/20 p-6">
+          <p class="hud-label mb-5">room controls</p>
+          <label class="flex items-center justify-between gap-3 text-sm text-bone/80">
+            neon hum
+            <input type="checkbox" id="set-hum" class="peer sr-only" checked />
+            <span class="relative h-6 w-11 shrink-0 border border-bone/25 bg-coal transition peer-checked:border-blood peer-checked:bg-blood-deep after:absolute after:top-0.5 after:left-0.5 after:h-[18px] after:w-[18px] after:bg-bone after:transition peer-checked:after:translate-x-5"></span>
+          </label>
+          <label class="hud-label mt-6 flex justify-between" for="set-glow">glow <span id="set-glow-v">70%</span></label>
+          <input id="set-glow" type="range" min="0" max="100" value="70" class="mt-3 w-full accent-[#c8102e]" />
+          <label class="hud-label mt-6 flex justify-between" for="set-haze">haze <span id="set-haze-v">40%</span></label>
+          <input id="set-haze" type="range" min="0" max="100" value="40" class="mt-3 w-full accent-[#c8102e]" />
+          <div class="mt-6 flex gap-3">
+            <button id="set-a" class="bg-blood px-5 py-2.5 text-sm font-bold text-white rounded-[2px] hover:bg-[#a50d27] active:translate-y-px transition">apply</button>
+            <button id="set-b" class="border border-bone/25 px-5 py-2.5 text-sm font-bold text-bone rounded-[2px] hover:border-blood hover:text-blood active:translate-y-px transition">reset</button>
+          </div>
+        </div>
+        <div class="deep relative overflow-hidden rounded-[2px] border border-bone/20 min-h-[280px] grid place-items-center">
+          <div id="set-preview" class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(200,16,46,0.5),transparent_70%)]"></div>
+          <div id="set-haze-el" class="absolute inset-0 bg-void/40" style="backdrop-filter: blur(6px);"></div>
+          <p class="relative font-grot text-3xl font-bold lowercase" style="text-shadow:0 2px 14px rgba(0,0,0,.8)">preview</p>
+          <p id="set-note" class="hud-label absolute bottom-3 opacity-70">hum on · glow 70 · haze 40</p>
+        </div>
+      </div>
+    </article>
+
+    <!-- 07 RIDGE TERRAIN -->
+    <article class="rv mt-14">
+      <p class="hud-label text-blood">07 // ridge panel in the wild</p>
+      <h2 class="mt-2 font-grot text-2xl md:text-3xl font-bold lowercase tracking-tight">read the terrain.</h2>
+      <div id="ridge-card" class="deep glint mt-5 relative overflow-hidden rounded-[2px] border border-bone/20 min-h-[300px]">
+        <svg viewBox="0 0 640 300" preserveAspectRatio="xMidYMid slice" class="absolute inset-0 h-full w-full">
+          <defs>
+            <linearGradient id="rg-show" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#232329"/><stop offset="0.52" stop-color="#4d0e1a"/><stop offset="1" stop-color="#a50d27"/>
+            </linearGradient>
+            <filter id="rgf-show" x="0%" y="0%" width="100%" height="100%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.006 0.09" numOctaves="4" seed="17" stitchTiles="stitch" result="n"/>
+              <feColorMatrix in="n" type="saturate" values="0" result="g"/>
+              <feComponentTransfer><feFuncR type="discrete" tableValues="0 0.3 0.55 0.8 1"/><feFuncG type="discrete" tableValues="0 0.3 0.55 0.8 1"/><feFuncB type="discrete" tableValues="0 0.3 0.55 0.8 1"/></feComponentTransfer>
+            </filter>
+          </defs>
+          <rect width="640" height="300" fill="url(#rg-show)"/>
+          <rect width="640" height="300" filter="url(#rgf-show)" opacity="0.55" style="mix-blend-mode:overlay"/>
+        </svg>
+        <div class="crt absolute inset-0"></div>
+        <div id="ridge-x" class="absolute inset-y-0 w-px bg-bone/60 hidden" style="left:50%"></div>
+        <div id="ridge-y" class="absolute inset-x-0 h-px bg-bone/60 hidden" style="top:50%"></div>
+        <span class="absolute left-3 top-2.5 z-10 font-grot text-sm font-bold lowercase tracking-tight text-bone" style="text-shadow:0 1px 10px rgba(0,0,0,.85)">terrain</span>
+        <span id="ridge-read" class="hud-label absolute right-3 top-3 z-10 !text-bone/70">elev ... / x ...</span>
+        <span class="hud-label absolute left-3 bottom-3 z-10 !text-bone/50">hover to survey</span>
+      </div>
+    </article>
+
+    <!-- finale -->
+    <article class="rv mt-16 border-t border-bone/15 pt-10 pb-8 text-center">
+      <p class="font-grot text-2xl md:text-3xl font-bold lowercase">every switch above is calliope red.</p>
+      <p class="mt-2 text-sm text-bone/60">same tokens, same buttons, dressed for the streets.</p>
+      <a href="/library" data-absorb class="mt-6 inline-block bg-blood px-6 py-3 text-sm font-bold tracking-wide text-white rounded-[2px] hover:bg-[#a50d27] transition-colors">open the library →</a>
+    </article>
+  </section>
+
+  <style>
+    .techlines {
+      background-image:
+        linear-gradient(rgba(138,138,147,0.16) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(138,138,147,0.16) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+    }
+    .glass {
+      background: rgba(14, 14, 18, 0.62);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .deep {
+      box-shadow: 0 24px 60px -18px rgba(0, 0, 0, 0.85), 0 0 50px -20px rgba(200, 16, 46, 0.4);
+    }
+    .glint { position: relative; }
+    .glint::after {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: linear-gradient(105deg, transparent 42%, rgba(232, 224, 208, 0.13) 50%, transparent 58%);
+      transform: translateX(-70%);
+      pointer-events: none;
+    }
+    .glint:hover::after { animation: glint-sweep 1s ease; }
+    @keyframes glint-sweep { to { transform: translateX(70%); } }
+    .rv { opacity: 0; transform: translateY(26px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+    .rv.in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .rv { opacity: 1; transform: none; transition: none; }
+      .glint:hover::after { animation: none; }
+    }
+  </style>
+
+  <script>
+    import Lenis from 'lenis';
+
+    if (!(window as any).__showcaseInit) {
+      (window as any).__showcaseInit = true;
+      const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // smooth scroll, only while on this page (SPA swaps keep window alive)
+      let lenis: any = null;
+      if (!reduced) {
+        lenis = new Lenis({ lerp: 0.09, smoothWheel: true });
+        (function raf(time: number) {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+        })(0);
+      }
+      const onShowcase = () => location.pathname.replace(/\/$/, '') === '/showcase';
+      const syncPage = () => {
+        if (!lenis) return;
+        if (onShowcase()) lenis.start();
+        else lenis.stop();
+      };
+      document.addEventListener('astro:page-load', () => { syncPage(); sweepRv(); });
+      syncPage();
+
+      // reveal on scroll
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((en) => {
+          if (en.isIntersecting) { (en.target as HTMLElement).classList.add('in'); io.unobserve(en.target); }
+        });
+      }, { threshold: 0.1 });
+      function sweepRv() {
+        document.querySelectorAll('.rv:not(.in)').forEach((el) => io.observe(el));
+      }
+      sweepRv();
+      setTimeout(sweepRv, 600);
+
+      // mouse parallax for hero layers
+      let pmx = 0, pmy = 0, smx = 0, smy = 0;
+      document.addEventListener('mousemove', (e) => {
+        pmx = e.clientX / innerWidth - 0.5;
+        pmy = e.clientY / innerHeight - 0.5;
+      });
+      if (!reduced) {
+        (function para() {
+          smx += (pmx - smx) * 0.06;
+          smy += (pmy - smy) * 0.06;
+          document.querySelectorAll('[data-depth]').forEach((el) => {
+            const d = Number((el as HTMLElement).dataset.depth || 10);
+            (el as HTMLElement).style.translate = `${(-smx * d).toFixed(1)}px ${(-smy * d).toFixed(1)}px`;
+          });
+          requestAnimationFrame(para);
+        })();
+      }
+
+      // 01 terminal
+      const termLog = document.getElementById('term-log');
+      const termForm = document.getElementById('term-form');
+      const termIn = document.getElementById('term-in') as HTMLInputElement | null;
+      const boot = ['grid.link v2.4, handshake ok', '3 couriers nearby · 2 storms incoming', 'curfew lifts at 04:00. plan accordingly.', 'type help + enter to begin.'];
+      let bi = 0;
+      function termPrint(line: string) {
+        if (!termLog) return;
+        const div = document.createElement('div');
+        div.textContent = line;
+        termLog.appendChild(div);
+        termLog.scrollTop = termLog.scrollHeight;
+      }
+      const bootTimer = setInterval(() => {
+        if (bi >= boot.length || !document.body.contains(termLog)) { clearInterval(bootTimer); return; }
+        termPrint(boot[bi++]);
+      }, 650);
+      const answers: Record<string, string> = {
+        help: 'commands: routes · weather · curfew · ping',
+        routes: 'red line is fastest tonight. low drift if you like the view.',
+        weather: 'acid drizzle until 02:00, then clear and cold.',
+        curfew: 'lifts 04:00. the bridge stays hot all night.',
+        ping: 'pong. 12ms. suspiciously good.',
+      };
+      termForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const v = (termIn?.value || '').trim().toLowerCase();
+        if (!v || !termIn) return;
+        termPrint('❯ ' + v);
+        termPrint(answers[v] || `unknown command: ${v}. try help.`);
+        termIn.value = '';
+      });
+
+      // 02 chat
+      const chatLog = document.getElementById('chat-log');
+      const chatForm = document.getElementById('chat-form');
+      const chatIn = document.getElementById('chat-in') as HTMLInputElement | null;
+      const vexReplies = ['copy that.', 'roof it is. watch the fans.', 'signal is thin up there, keep it short.', 'on my way.'];
+      let vi = 0;
+      function bubble(text: string, mine: boolean) {
+        if (!chatLog) return;
+        const div = document.createElement('div');
+        div.className = mine
+          ? 'ml-auto max-w-[75%] rounded-[2px] rounded-tr-none bg-blood px-3 py-2 text-sm text-white'
+          : 'max-w-[75%] rounded-[2px] rounded-tl-none bg-smoke px-3 py-2 text-sm text-bone/85';
+        div.textContent = text;
+        chatLog.appendChild(div);
+        chatLog.scrollTop = chatLog.scrollHeight;
+      }
+      chatForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const v = (chatIn?.value || '').trim();
+        if (!v || !chatIn) return;
+        bubble(v, true);
+        chatIn.value = '';
+        setTimeout(() => bubble(vexReplies[vi++ % vexReplies.length], false), 900);
+      });
+
+      // 03 flight paths
+      const fpName = document.getElementById('fp-name')!;
+      const fpT = document.getElementById('fp-t')!;
+      const fpA = document.getElementById('fp-a')!;
+      document.getElementById('fp-routes')?.addEventListener('click', (e) => {
+        const b = (e.target as HTMLElement).closest('button');
+        if (!b) return;
+        document.querySelectorAll('#fp-routes button').forEach((x) => {
+          x.className = 'hud-label border border-bone/25 px-4 py-2 hover:border-blood hover:text-blood transition-colors';
+        });
+        b.className = 'hud-label border border-blood text-blood px-4 py-2';
+        fpName.textContent = (b as HTMLElement).dataset.route || '';
+        fpT.textContent = (b as HTMLElement).dataset.t || '';
+        fpA.textContent = (b as HTMLElement).dataset.a || '';
+      });
+
+      // 04 signal
+      const sigView = document.getElementById('sig-view') as HTMLCanvasElement | null;
+      const sigFreq = document.getElementById('sig-freq') as HTMLInputElement | null;
+      const sigVal = document.getElementById('sig-val');
+      const sigState = document.getElementById('sig-state');
+      let locked = false;
+      function sigHz() {
+        const f = 87 + (Number(sigFreq?.value || 62) / 100) * 21;
+        if (sigVal) sigVal.textContent = f.toFixed(1) + ' mhz';
+        return f;
+      }
+      sigFreq?.addEventListener('input', () => {
+        sigHz();
+        locked = false;
+        if (sigState) { sigState.textContent = '○ scanning'; sigState.classList.add('text-blood'); }
+      });
+      document.getElementById('sig-lock')?.addEventListener('click', () => {
+        locked = true;
+        if (sigState) { sigState.textContent = '● locked ' + sigHz().toFixed(1); sigState.classList.remove('text-blood'); }
+      });
+      sigHz();
+      if (sigView && !reduced) {
+        const sg = sigView.getContext('2d')!;
+        (function sigLoop() {
+          requestAnimationFrame(sigLoop);
+          if (document.hidden || !document.body.contains(sigView)) return;
+          const Wd = sigView.width, Ht = sigView.height;
+          sg.fillStyle = '#0e0e12';
+          sg.fillRect(0, 0, Wd, Ht);
+          const t = performance.now() / 1000;
+          const center = 0.3 + (Number(sigFreq?.value || 62) / 100) * 0.4;
+          for (let x = 0; x < Wd; x += 3) {
+            const p = x / Wd;
+            const env = Math.exp(-Math.pow((p - center) * 6, 2));
+            const n = Math.abs(Math.sin(x * 0.11 + t * 3) * 0.5 + Math.sin(x * 0.031 - t * 1.7) * 0.5);
+            const h = 4 + env * (14 + n * (Ht - 30)) + n * 6;
+            sg.fillStyle = locked && Math.abs(p - center) < 0.03 ? '#c8102e' : (env > 0.45 ? '#e8e0d0' : '#3a3f45');
+            sg.fillRect(x, Ht - h, 2, h);
+          }
+        })();
+      }
+
+      // 05 ai chat
+      const aiLog = document.getElementById('ai-log');
+      const aiForm = document.getElementById('ai-form');
+      const aiIn = document.getElementById('ai-in') as HTMLInputElement | null;
+      const oracle = [
+        'red line, no contest. the low drift is pretty but the fog eats the lights.',
+        'drizzle until 02:00. bring something waterproof and mean it.',
+        'curfew lifts at 04:00. until then, rooftops only.',
+        'the noise is just the city dreaming. nothing to worry about. probably.',
+      ];
+      let oi = 0;
+      function aiBubble(text: string, mine: boolean, typing = false) {
+        if (!aiLog) return null;
+        const div = document.createElement('div');
+        div.className = mine
+          ? 'ml-auto max-w-[80%] rounded-[2px] rounded-tr-none bg-blood px-3 py-2 text-sm text-white'
+          : 'max-w-[80%] rounded-[2px] rounded-tl-none bg-smoke px-3 py-2 text-sm text-bone/85';
+        div.textContent = text;
+        if (typing) div.id = 'ai-typing';
+        aiLog.appendChild(div);
+        aiLog.scrollTop = aiLog.scrollHeight;
+        return div;
+      }
+      aiForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const v = (aiIn?.value || '').trim();
+        if (!v || !aiIn) return;
+        aiBubble(v, true);
+        aiIn.value = '';
+        aiBubble('···', false, true);
+        setTimeout(() => {
+          document.getElementById('ai-typing')?.remove();
+          aiBubble(oracle[oi++ % oracle.length], false);
+        }, 900);
+      });
+
+      // 06 settings preview
+      const setGlow = document.getElementById('set-glow') as HTMLInputElement | null;
+      const setHaze = document.getElementById('set-haze') as HTMLInputElement | null;
+      const setHum = document.getElementById('set-hum') as HTMLInputElement | null;
+      const setPreview = document.getElementById('set-preview');
+      const setHazeEl = document.getElementById('set-haze-el') as HTMLElement | null;
+      const setNote = document.getElementById('set-note');
+      const setGlowV = document.getElementById('set-glow-v');
+      const setHazeV = document.getElementById('set-haze-v');
+      function paintPreview() {
+        const g = Number(setGlow?.value || 70), h = Number(setHaze?.value || 40);
+        const hum = setHum?.checked ?? true;
+        if (setPreview) setPreview.style.opacity = hum ? String(0.25 + (g / 100) * 0.75) : '0.08';
+        if (setHazeEl) setHazeEl.style.setProperty('backdrop-filter', `blur(${(h / 100) * 14}px)`);
+        if (setGlowV) setGlowV.textContent = g + '%';
+        if (setHazeV) setHazeV.textContent = h + '%';
+        if (setNote) setNote.textContent = `hum ${hum ? 'on' : 'off'} · glow ${g} · haze ${h}`;
+      }
+      setGlow?.addEventListener('input', paintPreview);
+      setHaze?.addEventListener('input', paintPreview);
+      setHum?.addEventListener('change', paintPreview);
+      document.getElementById('set-b')?.addEventListener('click', () => {
+        if (setGlow) setGlow.value = '70';
+        if (setHaze) setHaze.value = '40';
+        if (setHum) setHum.checked = true;
+        paintPreview();
+      });
+      document.getElementById('set-a')?.addEventListener('click', paintPreview);
+      paintPreview();
+
+      // 07 ridge survey
+      const ridgeCard = document.getElementById('ridge-card');
+      const ridgeX = document.getElementById('ridge-x');
+      const ridgeY = document.getElementById('ridge-y');
+      const ridgeRead = document.getElementById('ridge-read');
+      ridgeCard?.addEventListener('pointermove', (e) => {
+        const r = ridgeCard.getBoundingClientRect();
+        const x = ((e.clientX - r.left) / r.width) * 100;
+        const y = ((e.clientY - r.top) / r.height) * 100;
+        if (ridgeX) { ridgeX.style.left = x + '%'; ridgeX.classList.remove('hidden'); }
+        if (ridgeY) { ridgeY.style.top = y + '%'; ridgeY.classList.remove('hidden'); }
+        if (ridgeRead) ridgeRead.textContent = `elev ${String(Math.round(100 - y)).padStart(3, '0')}% · x ${String(Math.round(x)).padStart(3, '0')}`;
+      });
+      ridgeCard?.addEventListener('pointerleave', () => {
+        ridgeX?.classList.add('hidden');
+        ridgeY?.classList.add('hidden');
+        if (ridgeRead) ridgeRead.textContent = 'elev ... / x ...';
+      });
+    }
+  </script>
+</Base>

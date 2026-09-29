@@ -10,14 +10,14 @@
     "tone": "red"
   },
   {
-    "slug": "reclaim",
-    "title": "reclaim",
-    "tag": "APP",
+    "slug": "example-thorn",
+    "title": "SECOND SLOT",
+    "tag": "DRAFT",
     "year": "2026",
-    "blurb": "Procedural brutalism — stamp blocks, the district overgrows around them. pixel canvas, every seed shareable.",
-    "stack": ["canvas", "seeded rng"],
-    "link": "/reclaim",
-    "tone": "red"
+    "blurb": "Second placeholder. Aim for 3–6 real pieces: interactive sites, visual experiments, tools, zines.",
+    "stack": ["design", "code"],
+    "link": "#",
+    "tone": "bone"
   },
   {
     "slug": "example-root",

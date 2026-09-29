@@ -70,7 +70,7 @@ const stops: Record<string, [string, string, string]> = {
                   ))}
                 </div>
               </div>
-              <a href={p.link} class="hud-label mt-6 inline-block text-bone underline decoration-blood underline-offset-4 hover:text-blood transition-colors">open →</a>
+              <a href={p.link} target={p.link.startsWith('http') ? '_blank' : undefined} rel={p.link.startsWith('http') ? 'noreferrer' : undefined} class="hud-label mt-6 inline-block text-bone underline decoration-blood underline-offset-4 hover:text-blood transition-colors">open →</a>
             </div>
           </article>
         );
